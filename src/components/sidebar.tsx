@@ -12,7 +12,7 @@ const sidebarItems = [
 
 const SideBar: React.FC = () => {
   return (
-    <div className="fixed top-0 left-0 h-[95%] w-16 justify-content m-4 rounded-3xl flex flex-col bg-[#121625] text-white shadow-md">
+    <div className="h-[98%] w-16 justify-content m-2 rounded-3xl flex flex-col bg-[#121625] text-white shadow-md">
 
       <img src={LogoIcon} alt="Logo" className="h-10 w-10 m-3" />
       <div className="h-px bg-gradient-to-r from-rosagrad to-roxograd mx-3"></div>
