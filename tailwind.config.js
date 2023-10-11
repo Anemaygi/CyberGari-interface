@@ -21,6 +21,8 @@ export default {
 				azul4: '#002fcb',
 				roxo1: '#ab58c5',
 				roxo2: '#835bc5',
+				roxograd: '#7156BA',
+				rosagrad: '#A34BB1',
 			},
 			borderRadius: {
 				lg: `var(--radius)`,
