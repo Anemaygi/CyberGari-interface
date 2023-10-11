@@ -1,5 +1,6 @@
 import React from 'react';
 import SideBar from '@/components/sidebar';
+import HistoryChart from '@/components/history-chart';
 
 
 const Template: React.FC = () => {
@@ -7,7 +8,7 @@ const Template: React.FC = () => {
       <div className="flex p-4 h-screen bg-secbackground">
         <div className='flex shadow-lg rounded-lg w-screen h-full p-2 bg-background'>
           <SideBar />
-          <p className="text-white">Dash</p>
+          <HistoryChart/>
         </div>
       </div>
     
