@@ -1,6 +1,6 @@
 import React from 'react';
 import SideBar from '@/components/sidebar';
-import PieChart from '@/components/pie_chart';
+import PieChart from '@/components/pie-chart';
 
 
 const Template: React.FC = () => {

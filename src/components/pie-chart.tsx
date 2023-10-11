@@ -20,7 +20,7 @@ export const data = {
 const PieChart: React.FC = () => {
   return (
     <div className="h-[50%] m-2 rounded-3xl flex flex-col font-inter bg-[#121625] mx-3 text-white shadow-md flow-root">
-      <div className="float-left mx-10 m-3.5">
+      <div className="float-left mx-10 m-3.5 mt-8">
         <Doughnut data={data} />
       </div>
       <div className="float-right m-10 mr-20 font-normal">
