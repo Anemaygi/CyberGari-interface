@@ -1,6 +1,6 @@
 import React from 'react';
 
-import LogoHorizontal from '@/img/logoVertical.png';
+import LogoHorizontal from '@/img/logoHorizontal.png';
 import Button from '@/components/button';
 
 const FirstSettings: React.FC = () => {
@@ -13,7 +13,7 @@ const FirstSettings: React.FC = () => {
       <div className="flex p-4 h-screen bg-secbackground">
         <div className='flex flex-col items-center shadow-lg rounded-lg w-screen h-full p-2 m-2 bg-background overflow-y-auto'>
           
-          <img src={LogoHorizontal} alt="Logo" className="h-48 w-62 mb-3" />
+          <img src={LogoHorizontal} alt="Logo" className="h-64 w-62" />
           <h1 className="text-white font-bold text-2xl">Bem-vindo ao CyberGari!</h1>
           <h2 className="text-white text-xl">Antes de começarmos, defina seus parâmetros iniciais. Você só fará isso uma vez ;)</h2>
           
