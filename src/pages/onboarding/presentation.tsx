@@ -3,7 +3,7 @@ import {Routes, Route, useNavigate} from 'react-router-dom';
 
 import { FiTrash2, FiSearch, FiLayout } from "react-icons/fi";
 
-import LogoVertical from '@/img/logoVertical.png';
+import LogoHorizontal from '@/img/logoHorizontal.png';
 import CardPresentation from '@/components/cardPresentation';
 import Button from '@/components/button';
 
@@ -37,7 +37,7 @@ const Presentation: React.FC = () => {
       <div className="flex p-4 h-screen bg-secbackground">
         <div className='flex flex-col items-center shadow-lg rounded-lg w-screen h-full p-2 m-2 bg-background overflow-y-auto'>
           
-          <img src={LogoVertical} alt="Logo" className="h-48 w-62 mb-3" />
+          <img src={LogoHorizontal} alt="Logo" className="h-64 w-62" />
           <h1 className="text-white font-bold text-2xl">Bem-vindo ao CyberGari!</h1>
           <h2 className="text-white text-xl">Estamos animados por tê-lo aqui</h2>
           
