@@ -14,8 +14,8 @@ const ReportButton: React.FC<ReportButtonProps> = ({size}) => {
 
 
   return (
-    <div className="border-2 border-roxo1 rounded-full p-2 m-4 inline-flex cursor-pointer h-full w-full" onClick={handleClick}>
-      <div className="shadow-sm bg-gradient-to-r m-1 from-roxo1 to-roxo2 w-full rounded-full flex items-center justify-center">
+    <div className="shadow-md border-2 border-roxo1 rounded-full p-2 inline-flex cursor-pointer h-72 w-72" onClick={handleClick}>
+      <div className="bg-gradient-to-r m-1 from-roxo1 to-roxo2 w-full rounded-full flex items-center justify-center">
         <div className="text-white"> <FiSearch size={size}/> </div>
       </div>
     </div>
