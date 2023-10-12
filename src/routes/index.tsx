@@ -3,6 +3,7 @@ import LandingPage from '@/pages/landing';
 import LoginPage from "@/pages/login";
 import Template from "@/pages/template";
 import Presentation from "@/pages/onboarding/presentation";
+import FirstSettings from "@/pages/onboarding/firstsettings";
 
 export default function RootRouter() {
   return (
@@ -11,6 +12,7 @@ export default function RootRouter() {
       <Route path='/login' element={<LoginPage />} />
       <Route path='/template' element={<Template />} />
       <Route path='/presentation' element={<Presentation />} />
+      <Route path='/firstsettings' element={<FirstSettings />} />
     </Routes>
   );
 }
