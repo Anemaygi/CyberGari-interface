@@ -8,7 +8,15 @@ const Template: React.FC = () => {
       <div className="flex p-4 h-screen bg-secbackground">
         <div className='flex shadow-lg rounded-lg w-screen h-full p-2 bg-background'>
           <SideBar />
-          <HistoryChart/>
+          
+          <div className="grid grid-cols-10 grid-cols-auto gap-3 overflow-y-auto">
+            <div className="col-span-6"><HistoryChart/></div>
+            <div className="col-span-4"><HistoryChart/></div>
+            <div className="col-span-6"><HistoryChart/></div>
+            <div className="col-span-4"><HistoryChart/></div>
+          </div>
+          
+
         </div>
       </div>
     
