@@ -8,7 +8,8 @@ const Template: React.FC = () => {
       <div className="flex p-4 h-screen bg-secbackground">
         <div className='flex shadow-lg rounded-lg w-screen h-full p-2 bg-background'>
           <SideBar />
-          <PieChart/>
+          
+          
         </div>
       </div>
     
