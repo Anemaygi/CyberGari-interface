@@ -14,7 +14,9 @@ export default {
 		extend: {
 			fontFamily: {
 				'inter': ['Inter', 'sans-serif']
-			  },
+
+			},
+
 			colors: {
 				background: '#0E1120',
         secbackground: '#151525',
