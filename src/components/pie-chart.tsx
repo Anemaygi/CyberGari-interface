@@ -19,8 +19,8 @@ export const data = {
 
 const PieChart: React.FC = () => {
   return (
-    <div className="h-auto w-auto overflow-y-auto rounded-3xl flex-col font-inter bg-[#121625] text-white shadow-md flow-root">
-      <div className="float-left mx-10 m-3.5 mt-8">
+    <div className="h-auto w-auto overflow-y-auto rounded-3xl flex-col flex items-center font-inter bg-[#121625] text-white shadow-md">
+      <div><div className="float-left mx-10 m-3.5 mt-8">
         <Doughnut data={data} />
       </div>
       <div className="float-left m-10 mr-20 font-normal">
@@ -31,7 +31,7 @@ const PieChart: React.FC = () => {
           totalDeleted={data.datasets[0].data[2]}
         />
         <AdditionalInformation moneySaved={20.01} storageReleased="2GB" />
-      </div>
+      </div></div>
     </div>
   );
 };

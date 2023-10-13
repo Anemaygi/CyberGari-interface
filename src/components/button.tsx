@@ -17,9 +17,3 @@ const Button: React.FC<ButtonProps> = ({title, handleClick}) => {
 
 export default Button;
 
-
-
-  // const handleClick = () => {
-  //   console.log("clicouuu");
-  // };
-
