@@ -14,6 +14,21 @@ import {
 import FileItem from './file-item';
  
 
+interface CompressButtonProps{
+  id: String;
+}
+
+const CompressButton: React.FC<CompressButtonProps> = ({id}) => {
+  function compressItem(id: String){
+    console.log("Comprime "+id);
+  }  
+  
+  return(
+    <div className="flex items-center"><div onClick={() => compressItem( id )} className="bg-azul2 ml-2 cursor-pointer  text-xs rounded-md py-1 px-4 flex items-center justify-center">Comprimir</div></div>
+  );
+}
+
+
 
 interface ReportButtonProps {
   size: number;
@@ -30,92 +45,92 @@ const ReportButton: React.FC<ReportButtonProps> = ({size}) => {
       {
         "id": "1",
         "name": "File 1",
-        "lastViewedDate": "01/10/2023"
+        "lastView": "01/10/2023"
       },
       {
         "id": "2",
         "name": "File 2",
-        "lastViewedDate": "15/09/2023"
+        "lastView": "15/09/2023"
       },
       {
         "id": "3",
         "name": "File 3",
-        "lastViewedDate": "05/08/2023"
+        "lastView": "05/08/2023"
       },
       {
         "id": "4",
         "name": "File 4",
-        "lastViewedDate": "01/10/2023"
+        "lastView": "01/10/2023"
       },
       {
         "id": "5",
         "name": "File 5",
-        "lastViewedDate": "15/09/2023"
+        "lastView": "15/09/2023"
       },
       {
         "id": "6",
         "name": "File 6",
-        "lastViewedDate": "05/08/2023"
+        "lastView": "05/08/2023"
       },
       {
         "id": "7",
         "name": "File 7",
-        "lastViewedDate": "01/10/2023"
+        "lastView": "01/10/2023"
       },
       {
         "id": "8",
         "name": "File 8",
-        "lastViewedDate": "15/09/2023"
+        "lastView": "15/09/2023"
       },
       {
         "id": "9",
         "name": "File 9",
-        "lastViewedDate": "05/08/2023"
+        "lastView": "05/08/2023"
       },
       {
         "id": "10",
         "name": "Teste 1",
-        "lastViewedDate": "01/10/2023"
+        "lastView": "01/10/2023"
       },
       {
         "id": "12",
         "name": "R 2",
-        "lastViewedDate": "15/09/2023"
+        "lastView": "15/09/2023"
       },
       {
         "id": "13",
         "name": "G 3",
-        "lastViewedDate": "05/08/2023"
+        "lastView": "05/08/2023"
       },
       {
         "id": "14",
         "name": "B 4",
-        "lastViewedDate": "01/10/2023"
+        "lastView": "01/10/2023"
       },
       {
         "id": "15",
         "name": "F 5",
-        "lastViewedDate": "15/09/2023"
+        "lastView": "15/09/2023"
       },
       {
         "id": "16",
         "name": "H 6",
-        "lastViewedDate": "05/08/2023"
+        "lastView": "05/08/2023"
       },
       {
         "id": "17",
         "name": "I 7",
-        "lastViewedDate": "01/10/2023"
+        "lastView": "01/10/2023"
       },
       {
         "id": "18",
         "name": "J 8",
-        "lastViewedDate": "15/09/2023"
+        "lastView": "15/09/2023"
       },
       {
         "id": "19",
         "name": "K 9",
-        "lastViewedDate": "05/08/2023"
+        "lastView": "05/08/2023"
       }
     ]
   };
@@ -148,7 +163,7 @@ const ReportButton: React.FC<ReportButtonProps> = ({size}) => {
           {
           files.toCompressFiles.map(file => (
                 <div className="m-2">
-                  <FileItem id={file.id} name={file.name} lastView={file.lastViewedDate} type={true} />
+                  <FileItem file={file} action={<CompressButton id={file.id}/>} />
                   <div className="h-px bg-white/10 my-2"></div>
                 </div>
               ))
