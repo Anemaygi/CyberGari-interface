@@ -51,7 +51,7 @@ export const data = {
 
 const HistoryChart: React.FC = () => {
   return ( 
-    <div className="h-full w-full overflow-y-auto items-center justify-center rounded-3xl flex flex-col bg-[#121625] font-inter text-white shadow-md">
+    <div className="h-full w-full overflow-y-auto items-center p-4 justify-center rounded-3xl flex flex-col bg-[#121625] font-inter text-white shadow-md">
         <div className='items-left w-[90%] my-5'>
             <h2 className='text-xl font-extrabold text-left'>Armazenamento salvo por tempo</h2>
         </div>
