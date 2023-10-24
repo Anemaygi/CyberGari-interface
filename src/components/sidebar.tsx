@@ -5,7 +5,7 @@ import LogoIcon from '@/img/logo.svg';
 
 const sidebarItems = [
   { icon: <FiHome size="28" />, href: 'template', title: 'Dashboard' },
-  { icon: <FiSettings size="28" />, href: 'algo', title: 'Configurações' },
+  { icon: <FiSettings size="28" />, href: 'settings', title: 'Configurações' },
   { icon: <FiTag size="28" />, href: 'a', title: 'Etiquetas' },
 ];
 
