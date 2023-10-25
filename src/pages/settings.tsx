@@ -29,7 +29,7 @@ const Settings: React.FC = () => {
       <div className="flex p-4 h-screen bg-secbackground">
         <div className='flex shadow-lg rounded-lg w-screen h-full p-2 bg-background'>
           <SideBar />
-          <div className="overflow-y-auto flow-root static">
+          <div className="overflow-y-auto w-full flow-root static">
             <div><SettingsForm isDescriptionOn={false} /></div>
             <div><Icon icon={<FiSave size="62" />}/></div>
             

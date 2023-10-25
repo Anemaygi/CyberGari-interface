@@ -28,10 +28,11 @@ type ParametersProps = {
 };
 
 const ParametersCards: React.FC<ParametersProps> = ({id, text, icon, value, onChange}) => (
-    <label className="w-[30%] cursor-pointer my-2 ml-5 h-[5rem] px-2 py-3 bg-secbackground checkbox-wrapper font-bold text-[1vw] flex shadow-lg rounded-lg border-[1px] border-background float-left">
-          <div className="inline-flex items-center">
+    // <label className="w-[30%] cursor-pointer my-2 ml-5 h-[5rem] px-2 py-3 bg-secbackground checkbox-wrapper font-bold text-[1vw] flex shadow-lg rounded-lg border-[1px] border-background float-left">
+    <label className="cursor-pointer px-2 py-3 bg-secbackground checkbox-wrapper font-bold text-md h-28 flex shadow-lg rounded-lg border-[1px] border-background float-left">
+          <div className="flex items-center">
             <input type="checkbox" checked={value} onChange={onChange} className="hidden"/>
-            <div className=" mx-3 text-[2vw]"> {icon} </div>
+            <div className="mx-3 text-[2rem]"> {icon} </div>
             <div>{text}</div>
           </div>
     </label>
@@ -116,13 +117,16 @@ const ParametersForm: React.FC<SettingsProps> = ({isDescriptionOn}) => {
       ];
 
   return ( 
-    <div className="m-2 rounded-3xl flex flex-col mx-6 font-inter text-white my-10">
+    <div className="m-2 rounded-3xl flex flex-col mx-6 font-inter text-white my-10 w-full">
+        
         <ParametersTitle isDescriptionOn={isDescriptionOn} />
-        <div className="flow-root">
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
             {cardsContent.map((item) => (
                     <ParametersCards id={item.id} text={item.texto} icon={item.icon} value={item.value} onChange={item.function}/>
             ))}
         </div>
+    
     </div>
     );
 };
