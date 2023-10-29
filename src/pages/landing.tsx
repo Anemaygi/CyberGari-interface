@@ -16,14 +16,17 @@ const LandingPage: React.FC = () => {
         <div className='shadow-lg rounded-lg w-screen p-2 bg-background overflow-y-auto text-white'>
           {/* Item 1 */}
           <div className="grid grid-cols-1 md:grid-cols-2 min-h-full h-fit mb-8 relative z-0">
-          <div className="flex flex-grow justify-center items-center">
+          <div className="flex flex-grow justify-end items-center">
             <div className="w-[30rem] m-8 z-20">
-            <img src={title} alt="CyberGari" className="pt-4 w-[28rem]" />
-            <p className="px-4 pb-4">A economia e controle de armazenamento que você precisava, agora completos em um único lugar! </p>
-            <div className="w-fit"><Button title="Comece Agora!" handleClick={()=>navigate('/login')} /></div>
+            <img src={title} alt="CyberGari" className="pt-4 w-[30rem]" />
+            <p className="px-4 pb-4 text-lg">A economia e controle de armazenamento que você precisava, agora completos em um único lugar! </p>
+            <div className="w-full flex flex-wrap items-center">
+              <Button title="Comece agora!" handleClick={()=>navigate('/login')} />
+              <div className="border border-roxo1 rounded-2xl text-roxo1 shadow-lg flex flex-grow items-center h-fit w-fit py-2 mx-3 justify-center cursor-pointer" onClick={()=>navigate('/login')}>Entrar</div>
             </div>
             </div>
-            <div className="z-20 mb-10 flex items-center justify-center w-fit"><img src={items} alt="Imagem de lixo e pasta de arquivos" className="pt-4 w-[28rem] m-8" /></div>
+            </div>
+            <div className="z-20 mb-10 flex items-center justify-center w-full"><img src={items} alt="Imagem de lixo e pasta de arquivos" className="pt-4 w-[28rem] m-8" /></div>
             <FiChevronDown size={35} className="w-full absolute inset-x-0 bottom-0 animate-bounce"/>
             <div className="z-0 h-px w-px absolute top-40 right-40 rounded-full shadow-LgLightOrb bg-[#7058A3]"></div>
             <div className="z-0 h-px w-px absolute bottom-0 left-0 rounded-full shadow-SmLightOrb bg-[#7058A3]"></div>
@@ -31,7 +34,7 @@ const LandingPage: React.FC = () => {
           {/* Item 2 */}
           <div className="w-fit h-fit relative">
           <div className="z-0 h-px w-px absolute bottom-0 right-0 rounded-full shadow-SmLightOrb bg-[#7058A3]"></div>
-          <div className=" z-40 min-h-full h-fit bg-[#D9D9D9]/10 grid p-10 grid-cols-1 md:grid-cols-2 justify-center items-center relative">
+          <div className=" z-40 h-fit min-h-screen bg-[#D9D9D9]/10 grid p-10 grid-cols-1 md:grid-cols-2 justify-center items-center relative">
             
             <div className="flex justify-center"><img src={gradientFiles} className="z-20 max-h-96 h-full" /></div>
             <div className="md:pr-24 flex flex-col m-4 justify-center md:items-start items-center">
