@@ -64,13 +64,13 @@ const LandingPage: React.FC = () => {
           </div>
 
           <footer className="h-fit  bg-[#D9D9D9]/10 py-20 px-10 relative z-20">
-            <div className="grid grid-cols-2 md:grid-cols-4 px-20">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 px-20">
               <div className="flex flex-col space-y-4">
                 <p className="font-bold">A Empresa</p>
                 <a href="#">Termos e condições</a>
                 <a href="#">Políticas de Privacidade</a>
               </div>
-              <div className="flex flex-col space-y-4">
+              <div className="flex flex-col space-y-4 py-10 sm:py-0">
               <p className="font-bold">Entre em contato</p>
                 <a href="#" className="flex items-center"><FiLinkedin size={15} className="mr-2"/>/CyberGari</a>
               </div>
