@@ -16,7 +16,14 @@ export default {
 				'inter': ['Inter', 'sans-serif']
 
 			},
-
+			boxShadow: {
+        'LgLightOrb': `0 0 60px 30px #7058A3,
+				0 0 300px 300px #7058A3,
+				0 0 140px 100px #7058A3;`,
+				'SmLightOrb': `0 0 60px 30px #7058A3,
+				0 0 400px 70px #7058A3,
+				0 0 240px 200px #7058A3;`,
+      },
 			colors: {
 				background: '#0E1120',
         secbackground: '#151525',
