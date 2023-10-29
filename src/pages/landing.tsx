@@ -23,15 +23,15 @@ const LandingPage: React.FC = () => {
             <div className="w-fit"><Button title="Comece Agora!" handleClick={()=>navigate('/login')} /></div>
             </div>
             </div>
-            <div className="z-20 flex items-center justify-center w-fit"><img src={items} alt="Imagem de lixo e pasta de arquivos" className="pt-4 w-[28rem] m-8" /></div>
+            <div className="z-20 mb-10 flex items-center justify-center w-fit"><img src={items} alt="Imagem de lixo e pasta de arquivos" className="pt-4 w-[28rem] m-8" /></div>
             <FiChevronDown size={35} className="w-full absolute inset-x-0 bottom-0 animate-bounce"/>
             <div className="z-0 h-px w-px absolute top-40 right-40 rounded-full shadow-LgLightOrb bg-[#7058A3]"></div>
             <div className="z-0 h-px w-px absolute bottom-0 left-0 rounded-full shadow-SmLightOrb bg-[#7058A3]"></div>
           </div>
           {/* Item 2 */}
-          <div className=" z-40 min-h-full h-fit bg-[#D9D9D9]/10 grid  grid-cols-1 md:grid-cols-2 justify-center items-center relative">
+          <div className=" z-40 min-h-full h-fit bg-[#D9D9D9]/10 grid p-10 grid-cols-1 md:grid-cols-2 justify-center items-center relative">
             <div className="z-0 h-px w-px absolute bottom-0 right-0 rounded-full shadow-SmLightOrb bg-[#7058A3]"></div>
-            <div className="flex justify-center"><img src={gradientFiles} className="z-20 h-96 " /></div>
+            <div className="flex justify-center"><img src={gradientFiles} className="z-20 max-h-96 h-full" /></div>
             <div className="md:pr-24 flex flex-col m-4 justify-center md:items-start items-center">
               <h1 className="uppercase text-4xl font-black py-4 "> O que é o <b className="text-hotpink neon">Cybergari</b>? </h1>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pellentesque magna velit, in posuere neque molestie id. Donec dui ex, eleifend a arcu eget, semper volutpat mi. Praesent et vulputate dolor. In finibus tincidunt quam, quis semper lacus ornare id. Vivamus et odio eget leo pretium vehicula non nec mi.</p>
