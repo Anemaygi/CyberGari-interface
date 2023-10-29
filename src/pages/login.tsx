@@ -24,24 +24,23 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <body className="flex justify-center items-center bg-secbackground min-h-screen ">
-      <div className="grid grid-cols-1 lg:grid-cols-2 items-center w-5/6 h-5/6 m-5 bg-background rounded-2xl">
-        <div className="flex flex-grow w-auto justify-center items-center p-10">
-          <div className="justify-center items-center">
-            <div><img src={logoVertical} alt="Image" className="w-96" /></div>
-            <IconButton 
-              title={'Continue with Google'} 
-              handleClick={() => login()}
-              icon={<FontAwesomeIcon icon={faGoogle} />}
-              />
+    <div className="flex p-4 h-screen bg-secbackground">
+        <div className='flex flex-wrap items-center justify-center shadow-lg rounded-lg w-screen h-full p-2 bg-background overflow-y-auto md:overflow-hidden'>
+          
+            <div className="flex flex-col flex-grow h-full justify-center items-center">
+                <div><img src={logoVertical} alt="Image" className="w-96" /></div>
+                <IconButton 
+                  title={'Continue with Google'} 
+                  handleClick={() => login()}
+                  icon={<FontAwesomeIcon icon={faGoogle} />}
+                  />
+              </div>
+              <div className="flex justify-center">
+            <img src={limpeza} alt="Homem limpando" className="pt-4 mr-8 w-[28rem]" />
           </div>
+         
         </div>
-
-        <div className="flex justify-center">
-          <img src={limpeza} alt="Homem limpando" className="pt-4 w-[28rem]" />
-        </div>
-      </div>
-    </body>
+    </div>
   );
 };
 
