@@ -22,7 +22,7 @@ const LandingPage: React.FC = () => {
               <p className="px-4 pb-4 text-lg">A economia e controle de armazenamento que você precisava, agora completos em um único lugar! </p>
               <div className="w-full flex flex-wrap items-center">
                 <Button title="Comece agora!" handleClick={() => navigate('/login')} />
-                <div className="border border-roxo1 rounded-2xl text-roxo1 shadow-lg flex flex-grow items-center h-fit w-fit py-2 mx-3 justify-center cursor-pointer" onClick={() => navigate('/login')}>Entrar</div>
+                <div className="border-2 font-semibold border-roxo1 rounded-2xl text-roxo1 shadow-lg flex flex-grow items-center h-fit w-fit py-2 mx-3 justify-center cursor-pointer" onClick={() => navigate('/login')}>Entrar</div>
               </div>
             </div>
           </div>
