@@ -44,24 +44,31 @@ const LandingPage: React.FC = () => {
             </div>
             </div>
           </div>
-          <div className="h-fit grid  grid-cols-1 md:grid-cols-2 items-center my-8 p-16">
+          <div className="h-fit grid  grid-cols-1 md:grid-cols-2 items-center my-8 p-16 relative">
           
-          <div className="flex items-center justify-center w-full h-full "><img src={bnf1}/></div>
+          <div className="flex items-center justify-center w-full h-full z-20 "><img src={bnf1}/></div>
           <div className="px-4 md:px-24 pb-24 text-center md:text-left">
             <h2 className="text-xl font-bold py-4">Tenha o controle na sua mão</h2>
             <p>Com o nosso dashboard você será capaz de ver todas as informações sobre seus arquivos e a economia que o CyberGari está gerando na sua organização.</p>
           </div>
           
-          <div className="flex items-center justify-center w-full h-full md:order-2"><img src={bnf2}/></div>
+          <div className="absolute lg:flex justify-center inset-x-0 top-[26%] hidden">
+            <img src="src/img/line1.svg" className="w-[45%]"/>
+          </div>
+
+
+          <div className="flex items-center justify-center w-full h-full md:order-2 z-20"><img src={bnf2}/></div>
           <div className="px-4 md:px-24 pb-24 md:order-1 text-center md:text-right">
             <h2 className="text-xl font-bold py-4">Economize de forma simples</h2>
             <p>Utilizando o CyberGari, a preocupação com os custos de armazenamento pode ser mitigada de forma tranquila e progressiva, deixa isso tudo com a gente!</p>
           </div>
           
-          
+          <div className="absolute lg:flex justify-center inset-x-0 top-[51%] hidden">
+            <img src="src/img/line3.svg" className="w-[45%]"/>
+          </div>
 
-          <div className="flex items-center justify-center w-full h-full md:order-3"><img src={bnf3}/></div>
-          <div className="px-4 md:px-24 pb-24 md:order-4 text-center md:text-left">
+          <div className="flex items-center justify-center w-full h-full md:order-4 z-20"><img src={bnf3}/></div>
+          <div className="px-4 md:px-24 pb-24 md:order-5 text-center md:text-left">
             <h2 className="text-xl font-bold py-4">Personalize a sua experiência</h2>
             <p>A nossa plataforma te dará acesso a inúmeras configurações onde você terá o controle sobre quais informações serão coletadas para análise, além da criação de tags para nos indicar os seus arquivos de maior importância.</p>
           </div>
