@@ -3,10 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.neon{
-	text-shadow: 0 0 50px rgb(202, 67, 135), 0 0 30px rgb(202, 67, 135), 0 0 50px rgb(202, 67, 135),
-    0 0 100px rgb(202, 67, 135), 0 0 200px rgb(202, 67, 135);
-}
 
 @layer base {
 	:root {
