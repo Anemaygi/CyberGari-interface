@@ -1,6 +1,6 @@
-import { FiSearch } from "react-icons/fi";
+import { FiPlus, FiSearch, FiTag, FiTrash } from "react-icons/fi";
 import { Input } from "./ui/input";
-import Button from "./button";
+import IconButton from "./icon-button";
 
 
 const LabelsMenu: React.FC = () => {
@@ -10,14 +10,14 @@ const LabelsMenu: React.FC = () => {
                 <Input className="text-white bg-secbackground border-0 rounded-xl p-5" placeholder="Pesquisar"/>
                 <FiSearch size={25} color="#FFFFFF" className="mr-7 mt-2 absolute"/>
             </div>
-            <div className="w-full font-inter my-3 col-span-1">
-                <Button title="Comece agora!" handleClick={() => console.log("oi")} />
+            <div className="w-full font-inter col-span-1">
+                <IconButton icon={<FiTag size={25}/>} title="" handleClick={() => console.log("oi")} />
             </div>
-            <div className="w-full font-inter my-3 col-span-1">
-                <Button title="Comece agora!" handleClick={() => console.log("oi")} />
+            <div className="w-full font-inter col-span-1">
+                <IconButton icon={<FiPlus size={25}/>} title="" handleClick={() => console.log("oi")} />
             </div>
-            <div className="w-full font-inter my-3 col-span-1">
-                <Button title="Comece agora!" handleClick={() => console.log("oi")} />
+            <div className="w-full font-inter col-span-1">
+                <IconButton icon={<FiTrash size={25}/>} title="" handleClick={() => console.log("oi")} />
             </div>
         </div>
       );

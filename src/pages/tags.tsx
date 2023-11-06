@@ -9,7 +9,7 @@ const Tags: React.FC = () => {
             <SideBar />
             <div className="w-full grid-cols-6">
             <LabelsMenu />
-            {/* <FilesView /> */}
+            <FilesView />
             </div>
   
           </div>
