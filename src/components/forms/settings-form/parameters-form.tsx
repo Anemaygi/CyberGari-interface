@@ -32,7 +32,7 @@ const ParametersCards: React.FC<ParametersProps> = ({id, text, icon, value, onCh
 
     const handleColor = () => {
         if(backgroundColor === "") {
-            setColor("border-[#AB58C5] border text-[#AB58C5]")
+            setColor("border-roxo1 border text-roxo1")
         } else {
             setColor("")
         }
