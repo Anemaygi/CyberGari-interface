@@ -41,10 +41,11 @@ const CreateModal: React.FC<CreateModalProps> = ({isOpen, OnRequestClose, select
                     <Input type="text" placeholder="Nome da Tag" className="w-full bg-[#D9D9D9] text-black mt-3 mb-5" />
 
                     <label className="font-bold">Cor da Tag</label><br/>
-                    <div className="flex w-full grid grid-cols-2 lg:grid-cols-7 items-center">
+                    <div className="w-full grid grid-cols-2 lg:grid-cols-7 items-center">
                         {
+                            
                             colors.map(scolor => (
-                                <button className={`bg-[${scolor}] mx-auto mt-3 mb-8 rounded-full h-[30px] w-[30px] col-span-1 focus:border-2 focus:border-white focus:shadow-xl`} onClick={() => selectFunction}/>
+                                <button style={{ backgroundColor: scolor }} className={`mx-auto mt-3 mb-8 rounded-full h-[30px] w-[30px] col-span-1 focus:border-2 focus:border-white focus:shadow-xl`} onClick={() => selectFunction}/>
                             ))
                         }
                     </div>
