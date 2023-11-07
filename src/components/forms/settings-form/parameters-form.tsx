@@ -1,6 +1,7 @@
 import { faDatabase, faEye, faMaximize, faPuzzlePiece, faTag, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState } from "react";
+import { FiCheck } from "react-icons/fi";
 
 type SettingsProps = {
     isDescriptionOn: boolean;
@@ -27,17 +28,36 @@ type ParametersProps = {
     onChange: () => void;
 };
 
-const ParametersCards: React.FC<ParametersProps> = ({id, text, icon, value, onChange}) => (
-    // <label className="w-[30%] cursor-pointer my-2 ml-5 h-[5rem] px-2 py-3 bg-secbackground checkbox-wrapper font-bold text-[1vw] flex shadow-lg rounded-lg border-[1px] border-background float-left">
-    <label className="cursor-pointer px-2 py-3 bg-secbackground checkbox-wrapper font-bold text-md h-28 flex shadow-lg rounded-lg border-[1px] border-background float-left">
-          <div className="flex items-center">
-            <input type="checkbox" checked={value} onChange={onChange} className="hidden"/>
-            <div className="mx-3 text-[2rem]"> {icon} </div>
-            <div>{text}</div>
-          </div>
-    </label>
+const ParametersCards: React.FC<ParametersProps> = ({id, text, icon, value, onChange}) => {
+    const [backgroundColor, setColor] = useState("");
 
-);
+    const handleColor = () => {
+        if(backgroundColor === "") {
+            setColor("border-roxo1 border text-roxo1")
+        } else {
+            setColor("")
+        }
+    }
+
+    const handleChange = () => {
+        handleColor();
+        handleChange();
+    }
+
+    return (
+        <label className={`${backgroundColor} cursor-pointer px-2 py-3 bg-secbackground font-bold text-md h-28 flex shadow-lg rounded-lg float-left relative`}>
+            <div className={`h-6 w-6 bg-roxo1 flex items-center justify-center absolute rounded-full -top-2 -right-2 ${backgroundColor == "" ? 'hidden' : ''}`}>
+                <div className='text-white'><FiCheck size={15}/></div>
+            </div>
+            <div className="flex items-center"onChange={handleChange}>
+                <input type="checkbox" checked={value} className="hidden"/>
+                <div className="mx-3 text-[2rem]" > {icon} </div>
+                <div>{text}</div>
+            </div>
+        </label>
+    );
+
+};
 
 const ParametersForm: React.FC<SettingsProps> = ({isDescriptionOn}) => {
     const [checkedExtension, setCheckedExtension] = React.useState(false);
@@ -121,7 +141,7 @@ const ParametersForm: React.FC<SettingsProps> = ({isDescriptionOn}) => {
         
         <ParametersTitle isDescriptionOn={isDescriptionOn} />
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {cardsContent.map((item) => (
                     <ParametersCards id={item.id} text={item.texto} icon={item.icon} value={item.value} onChange={item.function}/>
             ))}
