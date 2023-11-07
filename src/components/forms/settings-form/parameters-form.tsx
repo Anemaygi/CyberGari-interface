@@ -32,7 +32,7 @@ const ParametersCards: React.FC<ParametersProps> = ({id, text, icon, value, onCh
 
     const handleColor = () => {
         if(backgroundColor === "") {
-            setColor("border-[#AB58C5] text-[#AB58C5]")
+            setColor("border-[#AB58C5] border text-[#AB58C5]")
         } else {
             setColor("")
         }
@@ -44,7 +44,7 @@ const ParametersCards: React.FC<ParametersProps> = ({id, text, icon, value, onCh
     }
 
     return (
-        <label className={`${backgroundColor} cursor-pointer px-2 py-3 bg-secbackground font-bold text-md h-28 flex shadow-lg rounded-lg border-[1px] border-background float-left`}>
+        <label className={`${backgroundColor} cursor-pointer px-2 py-3 bg-secbackground font-bold text-md h-28 flex shadow-lg rounded-lg float-left relative`}>
             <div className="flex items-center"onChange={handleChange}>
                 <input type="checkbox" checked={value} className="hidden"/>
                 <div className="mx-3 text-[2rem]" > {icon} </div>
