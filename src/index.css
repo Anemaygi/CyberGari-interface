@@ -75,9 +75,3 @@
 		--radius: 0.5rem;
 	}
 }
-
-@layer components {
-	.checkbox-wrapper:has(input:checked) {
-	  @apply border-[#AB58C5] text-[#AB58C5];
-	}
-}

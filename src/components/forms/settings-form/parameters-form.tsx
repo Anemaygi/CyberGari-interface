@@ -1,6 +1,6 @@
 import { faDatabase, faEye, faMaximize, faPuzzlePiece, faTag, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState } from "react";
 
 type SettingsProps = {
     isDescriptionOn: boolean;
@@ -27,17 +27,33 @@ type ParametersProps = {
     onChange: () => void;
 };
 
-const ParametersCards: React.FC<ParametersProps> = ({id, text, icon, value, onChange}) => (
-    // <label className="w-[30%] cursor-pointer my-2 ml-5 h-[5rem] px-2 py-3 bg-secbackground checkbox-wrapper font-bold text-[1vw] flex shadow-lg rounded-lg border-[1px] border-background float-left">
-    <label className="cursor-pointer px-2 py-3 bg-secbackground checkbox-wrapper font-bold text-md h-28 flex shadow-lg rounded-lg border-[1px] border-background float-left">
-          <div className="flex items-center">
-            <input type="checkbox" checked={value} onChange={onChange} className="hidden"/>
-            <div className="mx-3 text-[2rem]"> {icon} </div>
-            <div>{text}</div>
-          </div>
-    </label>
+const ParametersCards: React.FC<ParametersProps> = ({id, text, icon, value, onChange}) => {
+    const [backgroundColor, setColor] = useState("");
 
-);
+    const handleColor = () => {
+        if(backgroundColor === "") {
+            setColor("border-[#AB58C5] text-[#AB58C5]")
+        } else {
+            setColor("")
+        }
+    }
+
+    const handleChange = () => {
+        handleColor();
+        handleChange();
+    }
+
+    return (
+        <label className={`${backgroundColor} cursor-pointer px-2 py-3 bg-secbackground font-bold text-md h-28 flex shadow-lg rounded-lg border-[1px] border-background float-left`}>
+            <div className="flex items-center"onChange={handleChange}>
+                <input type="checkbox" checked={value} className="hidden"/>
+                <div className="mx-3 text-[2rem]" > {icon} </div>
+                <div>{text}</div>
+            </div>
+        </label>
+    );
+
+};
 
 const ParametersForm: React.FC<SettingsProps> = ({isDescriptionOn}) => {
     const [checkedExtension, setCheckedExtension] = React.useState(false);
