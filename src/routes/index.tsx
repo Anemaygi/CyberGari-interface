@@ -5,6 +5,7 @@ import Dashboard from "@/pages/dashboard";
 import Presentation from "@/pages/onboarding/presentation";
 import FirstSettings from "@/pages/onboarding/firstsettings";
 import Settings from "@/pages/settings";
+import Tags from "@/pages/tags";
 
 export default function RootRouter() {
   return (
@@ -15,6 +16,7 @@ export default function RootRouter() {
       <Route path='/presentation' element={<Presentation />} />
       <Route path='/firstsettings' element={<FirstSettings />} />
       <Route path='/settings' element={<Settings />} />
+      <Route path='/labels' element={<Tags />} />
     </Routes>
   );
 }
