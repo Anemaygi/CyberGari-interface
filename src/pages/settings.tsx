@@ -31,7 +31,7 @@ const Settings: React.FC = () => {
           <SideBar />
           <div className="overflow-y-auto w-full flow-root static">
             <div><SettingsForm isDescriptionOn={false} /></div>
-            <div><Icon icon={<FiSave size="62" />}/></div>
+            <div><Icon icon={<FiSave size="62" />} handleClick={()=>0}  /></div>
             
           </div>
 

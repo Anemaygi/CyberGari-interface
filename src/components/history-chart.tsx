@@ -8,7 +8,6 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { type } from 'os';
 import { Line } from 'react-chartjs-2';
 import { FiFileText, FiTrendingDown, FiTrendingUp } from 'react-icons/fi';
 
