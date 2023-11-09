@@ -26,5 +26,12 @@
 		{
 			"path": "./tsconfig.node.json"
 		}
-	]
+	],
+	"exclude": [
+		"node_modules",
+		"**/*.spec.ts",
+		"**/*.spec.tsx",
+		"**/*.test.ts",
+		"**/*.test.tsx",
+]
 }
