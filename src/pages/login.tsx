@@ -28,7 +28,7 @@ const LoginPage: React.FC = () => {
         <div className='flex flex-wrap items-center justify-center shadow-lg rounded-lg w-screen h-full p-2 bg-background overflow-y-auto md:overflow-hidden'>
           
             <div className="flex flex-col flex-grow h-full justify-center items-center">
-                <div><img src={logoVertical} alt="Image" className="w-96" /></div>
+                <div><img src={logoVertical} alt="CyberGari" className="w-96" /></div>
                 <IconButton 
                   title={'Continue with Google'} 
                   handleClick={() => login()}

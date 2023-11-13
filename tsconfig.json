@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"target": "ESNext",
-		"types": ["vite/client"],
+		"types": ["vite/client", "jest", "@testing-library/jest-dom", "node"],
 		"useDefineForClassFields": true,
 		"lib": ["DOM", "DOM.Iterable", "ESNext"],
 		"allowJs": false,
@@ -33,5 +33,6 @@
 		"**/*.spec.tsx",
 		"**/*.test.ts",
 		"**/*.test.tsx",
+		
 ]
 }

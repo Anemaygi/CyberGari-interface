@@ -5,7 +5,14 @@ export default {
   transform: {
       "^.+\\.tsx?$": "ts-jest" 
   },
+  rootDir: './src',
   moduleNameMapper: {
-      '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/test/__ mocks __/fileMock.js',
-  },
+      '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/test/__mocks__/fileMock.js',
+      '^@/(.*)$': '<rootDir>/$1',
+    },
+    testPathIgnorePatterns: [
+      "/node_modules/",
+      "components/ui/",
+    ],
+  
 }
