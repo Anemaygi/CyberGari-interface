@@ -22,8 +22,10 @@ const LoginPage: React.FC = () => {
 
     useEffect(
       () => {
+        console.log(user);
           if (user !== "") {
-            fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${user}`)
+            fetch(`http://localhost:8080/users/login/${user}`, { 
+                method: 'POST'})
             .then(response => response.json())
             .then(json => setProfile(json))
             .catch(error => console.error(error));
@@ -38,11 +40,10 @@ const LoginPage: React.FC = () => {
       localStorage.setItem('user', JSON.stringify(profile));
   
       const parsedProfile = JSON.parse(localStorage.getItem('user')!);
-      parsedProfile.name === 'Kailani Esteves'
+      parsedProfile.newUser === true
          ? navigate('/presentation', { replace: true })
          : navigate('/dashboard', { replace: true });
     }
-    console.log(localStorage.getItem('user'));
   }, [profile, navigate]);
 
 
