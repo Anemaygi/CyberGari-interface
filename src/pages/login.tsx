@@ -1,27 +1,51 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logoVertical from "@/img/logoVertical.png";
 import limpeza from "@/img/limpeza.png";
 import { useGoogleLogin } from '@react-oauth/google';
 import IconButton from '@/components/icon-button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 
 const LoginPage: React.FC = () => {
-  const [data, setData] = useState(null);
+  const [ user, setUser ] = useState("");
+  const [ profile, setProfile ] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
+  const navigate = useNavigate();
 
-  const login = useGoogleLogin({
-    onSuccess: codeResponse => handleLogin(codeResponse)
-  });
+    const login = useGoogleLogin({
+        onSuccess: (codeResponse) => {setUser(codeResponse.access_token); setIsLoggedIn(true)},
+        onError: (error) => console.log('Login Failed:', error)
+    });
 
-  function handleLogin(codeResponse: any) {
-    fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${codeResponse.access_token}`)
-    .then(response => response.json())
-    .then(json => setData(json))
-    .catch(error => console.error(error));
+    useEffect(
+      () => {
+        console.log(user);
+          if (user !== "") {
+            fetch(`http://localhost:8080/users/login/${user}`, { 
+                method: 'POST'})
+            .then(response => response.json())
+            .then(json => setProfile(json))
+            .catch(error => console.error(error));
 
-    console.log(data);
-  };
+          }
+      },
+      [ user ]
+  );
+
+  useEffect(() => {
+    if (isLoggedIn && profile) {
+      localStorage.setItem('user', JSON.stringify(profile));
+  
+      const parsedProfile = JSON.parse(localStorage.getItem('user')!);
+      parsedProfile.newUser === true
+         ? navigate('/presentation', { replace: true })
+         : navigate('/dashboard', { replace: true });
+    }
+  }, [profile, navigate]);
+
 
   return (
     <div className="flex p-4 h-screen bg-secbackground">
