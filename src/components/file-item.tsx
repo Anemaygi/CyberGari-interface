@@ -1,3 +1,4 @@
+import { toLocalDate } from "@/utils";
 import React from "react";
 import { FiFileText, FiTrash2, FiMaximize2 } from "react-icons/fi";
 
@@ -7,7 +8,7 @@ import { FiFileText, FiTrash2, FiMaximize2 } from "react-icons/fi";
 interface FileToDelete {
   id: string;
   name: string;
-  lastView: string;
+  modifiedTime: string;
 }
 interface ManipuleItem {
   file: FileToDelete;
@@ -24,7 +25,7 @@ const FileItem: React.FC<ManipuleItem> = ({file, action}) => {
       <div className="flex items-center text-roxo1 "><FiFileText size={24} /></div>
       <div className="flex flex-grow flex-col text-left mx-3">
         <p className="font-bold">{file.name}</p>
-        <p className="text-sm">Último acesso em {file.lastView}</p>
+        <p className="text-sm">Último acesso em {toLocalDate(file.modifiedTime)}</p>
       </div>
       {action}
             
