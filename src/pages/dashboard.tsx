@@ -56,7 +56,8 @@ const Dashboard: React.FC = () => {
   }
 
   useEffect(() => {
-    handleReportGeneration()
+    handleReportGeneration();
+    localStorage.setItem('reportId', userReport.id);
   }, [user])
   
   return (
