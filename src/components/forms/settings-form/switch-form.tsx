@@ -1,8 +1,12 @@
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { userConfig } from "./settings-form";
+import { useState } from "react";
 
 type SettingsProps = {
     isDescriptionOn: boolean;
+    configs: userConfig;
+    setConfigs: React.Dispatch<React.SetStateAction<userConfig>>;
 };
   
 const SwitchTitle: React.FC<SettingsProps> = ({
@@ -19,17 +23,40 @@ const SwitchTitle: React.FC<SettingsProps> = ({
 )
 
 
-const SwitchForm: React.FC<SettingsProps> = ({isDescriptionOn}) => {
-  return ( 
+const SwitchForm: React.FC<SettingsProps> = ({isDescriptionOn, configs, setConfigs}) => {
+    const [compress, setCompress] = useState(false)
+    const [exclusion, setExclusion] = useState(false)
+
+
+    return ( 
     <div className="m-2 rounded-3xl flex flex-col mx-6 font-inter text-white mb-10">
-        <SwitchTitle isDescriptionOn={isDescriptionOn} />
-         <div className="flex items-center space-x-2 flow-root my-3">
+        <SwitchTitle isDescriptionOn={isDescriptionOn} configs={configs} setConfigs={setConfigs} />
+         <div className="items-center space-x-2 flow-root my-3">
             <Label htmlFor="delete-files" className="font-bold text-base float-left">Excluir arquivos de forma automática</Label>
-            <Switch id="delete-files" className="float-right"/>
+            <Switch id="delete-files" className="float-right" 
+                checked={exclusion}  
+                onCheckedChange={(exclusionValue) => {
+                    setExclusion(exclusionValue);
+                    setConfigs(currValue => ({
+                    ...currValue,
+                    autExclusion: exclusionValue,
+                    }));
+                }}
+            />
         </div>
-        <div className="flex items-center space-x-2 flow-root my-3">
+
+        <div className="items-center space-x-2 flow-root my-3" >
             <Label htmlFor="compress-files" className="font-bold text-base float-left">Comprimir arquivos de forma automática</Label>
-            <Switch id="compress-files" className="float-right"/>
+            <Switch id="compress-files" className="float-right" 
+            checked={compress}  
+            onCheckedChange={(isCompressed) => {
+                setCompress(isCompressed);
+                setConfigs(currValue => ({
+                  ...currValue,
+                  autCompression: isCompressed,
+                }));
+              }}
+            />
         </div>
     </div>
     );

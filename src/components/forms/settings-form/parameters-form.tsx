@@ -2,9 +2,12 @@ import { faDatabase, faEye, faMaximize, faPuzzlePiece, faTag, faUserGroup } from
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { FiCheck } from "react-icons/fi";
+import { userConfig } from "./settings-form";
 
 type SettingsProps = {
     isDescriptionOn: boolean;
+    configs: userConfig;
+    setConfigs: React.Dispatch<React.SetStateAction<userConfig>>;
 };
   
 const ParametersTitle: React.FC<SettingsProps> = ({
@@ -31,7 +34,7 @@ type ParametersProps = {
 const ParametersCards: React.FC<ParametersProps> = ({id, text, icon, value, onChange}) => {
     const [backgroundColor, setColor] = useState("");
 
-    const handleColor = () => {
+    const handleChange = () => {
         if(backgroundColor === "") {
             setColor("border-roxo1 border text-roxo1")
         } else {
@@ -39,27 +42,26 @@ const ParametersCards: React.FC<ParametersProps> = ({id, text, icon, value, onCh
         }
     }
 
-    const handleChange = () => {
-        handleColor();
-        handleChange();
-    }
-
     return (
+        <>
         <label className={`${backgroundColor} cursor-pointer px-2 py-3 bg-secbackground font-bold text-md h-28 flex shadow-lg rounded-lg float-left relative`}>
             <div className={`h-6 w-6 bg-roxo1 flex items-center justify-center absolute rounded-full -top-2 -right-2 ${backgroundColor == "" ? 'hidden' : ''}`}>
                 <div className='text-white'><FiCheck size={15}/></div>
             </div>
-            <div className="flex items-center"onChange={handleChange}>
-                <input type="checkbox" checked={value} className="hidden"/>
+            <div className="flex items-center" onChange={handleChange}>
+                <input type="checkbox" checked={value} onChange={onChange}
+                className="hidden"
+                />
                 <div className="mx-3 text-[2rem]" > {icon} </div>
                 <div>{text}</div>
             </div>
         </label>
+        </>
     );
 
 };
 
-const ParametersForm: React.FC<SettingsProps> = ({isDescriptionOn}) => {
+const ParametersForm: React.FC<SettingsProps> = ({isDescriptionOn, configs, setConfigs}) => {
     const [checkedExtension, setCheckedExtension] = React.useState(false);
     const [checkedSize, setCheckedSize] = React.useState(false);
     const [checkedAccess, setCheckedAccess] = React.useState(false);
@@ -68,27 +70,46 @@ const ParametersForm: React.FC<SettingsProps> = ({isDescriptionOn}) => {
     const [checkedOther, setCheckedOther] = React.useState(false);
 
     const handleChangeExtension = () => {
-        setCheckedExtension(!checkedExtension);
+        setCheckedExtension((prevValue) => !prevValue);
+        setConfigs((currValue) => ({
+            ...currValue,
+            fileExtension: !checkedExtension,
+        }));
     };
+    
 
     const handleChangeSize = () => {
-        setCheckedSize(!checkedSize);
+        setCheckedSize((prevValue) => !prevValue);
+        setConfigs(currValue => ({
+            ...currValue,
+            fileSize: !checkedSize,
+            }));
     };
 
     const handleChangeAccess = () => {
         setCheckedAccess(!checkedAccess);
+        // NOT IN THE OBJECT
     };
 
     const handleChangeViews = () => {
-        setCheckedViews(!checkedViews);
+        setCheckedViews((prevValue) => !prevValue);
+        setConfigs(currValue => ({
+            ...currValue,
+            numVisualizations: !checkedViews,
+            }));
     };
 
     const handleChangeTags = () => {
-        setCheckedTags(!checkedTags);
+        setCheckedTags((prevValue)=>!prevValue)
+        setConfigs(currValue => ({
+            ...currValue,
+            tags: !checkedTags,
+            }));
     };
 
     const handleChangeOther = () => {
         setCheckedOther(!checkedOther);
+        // NOT IN THE OBJECT
     };
 
     const cardsContent = [
@@ -139,7 +160,7 @@ const ParametersForm: React.FC<SettingsProps> = ({isDescriptionOn}) => {
   return ( 
     <div className="m-2 rounded-3xl flex flex-col mx-6 font-inter text-white my-10 w-full">
         
-        <ParametersTitle isDescriptionOn={isDescriptionOn} />
+        <ParametersTitle isDescriptionOn={isDescriptionOn} configs={configs} setConfigs={setConfigs}/>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {cardsContent.map((item) => (
