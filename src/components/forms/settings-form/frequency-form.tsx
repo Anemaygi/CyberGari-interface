@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { userConfig } from "./settings-form";
+import { userConfig, PeriodicityScale } from "./settings-form";
 
 
 type SettingsProps = {
@@ -8,14 +8,6 @@ type SettingsProps = {
     configs: userConfig;
     setConfigs: React.Dispatch<React.SetStateAction<userConfig>>;
 };
-  
-enum PeriodicityScale {
-    MANUALLY = "MANUALLY",
-    DAYS = "DAYS",
-    WEEKS = "WEEKS",
-    MONTHS = "MONTHS",
-    YEARS = "YEARS",
-}
 
 const FrequencyTitle: React.FC<SettingsProps> = ({
     isDescriptionOn

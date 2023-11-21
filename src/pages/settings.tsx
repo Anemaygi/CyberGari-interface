@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SideBar from '@/components/sidebar';
 import SettingsForm from '@/components/forms/settings-form/settings-form';
 import { FiSave } from 'react-icons/fi';
+import { userConfig, PeriodicityScale } from '@/components/forms/settings-form/settings-form'; 
 
 interface IconProps {
   icon: React.ReactNode;
@@ -25,12 +26,26 @@ const handleClick = () => {
 };
 
 const Settings: React.FC = () => {
+  
+  const [userConfig, setUserConfig] = useState<userConfig>({
+      fileExtension: false,
+      fileSize: false,
+      tags: false,
+      numVisualizations: false,
+      autExclusion: false,
+      autCompression: false,
+      periodicityScale: PeriodicityScale.MANUALLY,
+      periodicityTime: 0,
+      maxLimit: '',
+      limitValue: 0,
+  })
+    
   return (
       <div className="flex p-4 h-screen bg-secbackground">
         <div className='flex shadow-lg rounded-lg w-screen h-full p-2 bg-background'>
           <SideBar />
           <div className="overflow-y-auto w-full flow-root static">
-            <div><SettingsForm isDescriptionOn={false} /></div>
+            <div><SettingsForm isDescriptionOn={false} userConfig={userConfig} setUserConfig={setUserConfig}/></div>
             <div><Icon icon={<FiSave size="62" />} handleClick={()=>0}  /></div>
             
           </div>

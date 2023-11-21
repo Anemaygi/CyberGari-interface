@@ -4,11 +4,7 @@ import LimitForm from "./limit-form";
 import ParametersForm from "./parameters-form";
 import SwitchForm from "./switch-form";
 
-type SettingsProps = {
-    isDescriptionOn: boolean;
-};
-
-enum PeriodicityScale {
+export enum PeriodicityScale {
     MANUALLY = "MANUALLY",
     DAYS = "DAYS",
     WEEKS = "WEEKS",
@@ -29,20 +25,27 @@ export interface userConfig {
     limitValue: number;
 }
 
-const SettingsForm: React.FC<SettingsProps> = ({isDescriptionOn}) => {
+type SettingsProps = {
+    isDescriptionOn: boolean;
+    userConfig: userConfig;
+    setUserConfig: React.Dispatch<React.SetStateAction<userConfig>>;
+};
 
-    const [userConfig, setUserConfig] = useState<userConfig>({
-        fileExtension: false,
-        fileSize: false,
-        tags: false,
-        numVisualizations: false,
-        autExclusion: false,
-        autCompression: false,
-        periodicityScale: PeriodicityScale.MANUALLY,
-        periodicityTime: 0,
-        maxLimit: '',
-        limitValue: 0,
-    })
+
+const SettingsForm: React.FC<SettingsProps> = ({isDescriptionOn, userConfig, setUserConfig}) => {
+
+    // const [userConfig, setUserConfig] = useState<userConfig>({
+    //     fileExtension: false,
+    //     fileSize: false,
+    //     tags: false,
+    //     numVisualizations: false,
+    //     autExclusion: false,
+    //     autCompression: false,
+    //     periodicityScale: PeriodicityScale.MANUALLY,
+    //     periodicityTime: 0,
+    //     maxLimit: '',
+    //     limitValue: 0,
+    // })
 
     return ( 
       <div className="h-full w-[95%] items-center justify-center m-2 rounded-3xl mx-6 font-inter text-white static">
