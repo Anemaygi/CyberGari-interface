@@ -164,7 +164,7 @@ const ParametersForm: React.FC<SettingsProps> = ({isDescriptionOn, configs, setC
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {cardsContent.map((item) => (
-                    <ParametersCards id={item.id} text={item.texto} icon={item.icon} value={item.value} onChange={item.function}/>
+                    <ParametersCards key={item.id} id={item.id} text={item.texto} icon={item.icon} value={item.value} onChange={item.function}/>
             ))}
         </div>
     
