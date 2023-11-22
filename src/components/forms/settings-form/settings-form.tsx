@@ -1,4 +1,3 @@
-import { useState } from "react";
 import FrequencyForm from "./frequency-form";
 import LimitForm from "./limit-form";
 import ParametersForm from "./parameters-form";
@@ -22,7 +21,9 @@ export interface userConfig {
     periodicityScale: PeriodicityScale;
     periodicityTime: number;
     maxLimit: string;
-    limitValue: number;
+    maxLimitValue: number;
+    lastSeen: boolean;
+    otherData: boolean;
 }
 
 type SettingsProps = {
@@ -33,19 +34,6 @@ type SettingsProps = {
 
 
 const SettingsForm: React.FC<SettingsProps> = ({isDescriptionOn, userConfig, setUserConfig}) => {
-
-    // const [userConfig, setUserConfig] = useState<userConfig>({
-    //     fileExtension: false,
-    //     fileSize: false,
-    //     tags: false,
-    //     numVisualizations: false,
-    //     autExclusion: false,
-    //     autCompression: false,
-    //     periodicityScale: PeriodicityScale.MANUALLY,
-    //     periodicityTime: 0,
-    //     maxLimit: '',
-    //     limitValue: 0,
-    // })
 
     return ( 
       <div className="h-full w-[95%] items-center justify-center m-2 rounded-3xl mx-6 font-inter text-white static">

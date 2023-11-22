@@ -87,8 +87,11 @@ const ParametersForm: React.FC<SettingsProps> = ({isDescriptionOn, configs, setC
     };
 
     const handleChangeAccess = () => {
-        setCheckedAccess(!checkedAccess);
-        // NOT IN THE OBJECT
+        setCheckedAccess((prevValue) => !prevValue);
+        setConfigs(currValue => ({
+            ...currValue,
+            lastSeen: !checkedAccess,
+            }));
     };
 
     const handleChangeViews = () => {
@@ -108,8 +111,11 @@ const ParametersForm: React.FC<SettingsProps> = ({isDescriptionOn, configs, setC
     };
 
     const handleChangeOther = () => {
-        setCheckedOther(!checkedOther);
-        // NOT IN THE OBJECT
+        setCheckedOther((prevValue)=>!prevValue);
+        setConfigs(currValue => ({
+            ...currValue,
+            otherData: !checkedOther,
+        }));
     };
 
     const cardsContent = [
@@ -167,7 +173,8 @@ const ParametersForm: React.FC<SettingsProps> = ({isDescriptionOn, configs, setC
                     <ParametersCards key={item.id} id={item.id} text={item.texto} icon={item.icon} value={item.value} onChange={item.function}/>
             ))}
         </div>
-    
+                
+        <div className='h-10 w-10 rounded-full bg-red-500' onClick={()=>console.log(configs)}></div>
     </div>
     );
 };

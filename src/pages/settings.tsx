@@ -9,7 +9,7 @@ interface IconProps {
   handleClick: () => void;
 }
 
-function Icon({ icon }: IconProps) {
+function Icon({ icon, handleClick }: IconProps) {
   return (
     <div className="flex justify-center lg:flex-none lg:justify-end mx-8 ">
     <div className="cursor-pointer border-2 border-roxo1 rounded-full p-2 mr-10 mt-[-10%]  flex h-40 w-40" onClick={handleClick}>
@@ -21,9 +21,9 @@ function Icon({ icon }: IconProps) {
   )
 }
 
-const handleClick = () => {
-  console.log("Salvar")
-};
+// const handleClick = () => {
+//   console.log("Salvar")
+// };
 
 const Settings: React.FC = () => {
   
@@ -37,16 +37,22 @@ const Settings: React.FC = () => {
       periodicityScale: PeriodicityScale.MANUALLY,
       periodicityTime: 0,
       maxLimit: '',
-      limitValue: 0,
+      maxLimitValue: 0,
+      lastSeen: false,
+      otherData: false,
   })
-    
+
+  const handleClick = () => {
+    console.log(userConfig)
+  };
+
   return (
       <div className="flex p-4 h-screen bg-secbackground">
         <div className='flex shadow-lg rounded-lg w-screen h-full p-2 bg-background'>
           <SideBar />
           <div className="overflow-y-auto w-full flow-root static">
             <div><SettingsForm isDescriptionOn={false} userConfig={userConfig} setUserConfig={setUserConfig}/></div>
-            <div><Icon icon={<FiSave size="62" />} handleClick={()=>0}  /></div>
+            <div><Icon icon={<FiSave size="62" />} handleClick={handleClick}  /></div>
             
           </div>
 
