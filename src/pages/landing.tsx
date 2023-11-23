@@ -7,7 +7,7 @@ import bnf3 from "@/img/bnf3.png";
 import gradientFiles from "@/img/gradientFiles.png";
 import Button from '@/components/button';
 import { useNavigate } from 'react-router-dom';
-import { FiChevronDown, FiLinkedin } from "react-icons/fi";
+import { FiChevronDown, FiLinkedin, FiMail } from "react-icons/fi";
 
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
@@ -85,6 +85,7 @@ const LandingPage: React.FC = () => {
             <div className="flex flex-col space-y-4 py-10 sm:py-0">
               <p className="font-bold">Entre em contato</p>
               <a href="#" className="flex items-center"><FiLinkedin size={15} className="mr-2" />/CyberGari</a>
+              <a href="#" className="flex items-center"><FiMail size={15} className="mr-2" />teamcybergari@gmail.com</a>
             </div>
           </div>
           <div className="z-0 h-px w-px absolute top-0 right-0 rounded-full shadow-SmLightOrb bg-[#7058A3]"></div>
