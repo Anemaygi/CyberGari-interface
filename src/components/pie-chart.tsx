@@ -4,20 +4,46 @@ import { FiCircle, FiDollarSign, FiTrendingUp } from "react-icons/fi";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export const data = {
-  labels: [],
-  datasets: [
-    {
-      label: "Resultados da Análise",
-      data: [50, 25, 25],
-      backgroundColor: ["#0077C2", "#07C8C5", "#0E557C"],
-      borderWidth: 0,
-      cutout: 90,
-    },
-  ],
-};
+type File = {
+  id: string;
+  name: string;
+  size: number;
+  modifiedTime: string;
+}
 
-const PieChart: React.FC = () => {
+type UserReport = {
+  id: string;
+  filesToCompress: File[];
+  filesToDelete: File[];
+  fileCount: number;
+}
+
+type PieChartProps = {
+  report: UserReport;
+}
+
+const PieChart: React.FC<PieChartProps> = ({report}) => {
+
+  const totalUsed = ((report.fileCount - report.filesToCompress.length - report.filesToDelete.length) / report.fileCount) * 100;
+  const totalDeleted = (report.filesToDelete.length / report.fileCount) * 100;
+  const totalCompressed = (report.filesToCompress.length / report.fileCount) * 100;
+
+  const data = {
+    labels: [],
+    datasets: [
+      {
+        label: "Resultados da Análise",
+        data: [totalUsed, totalCompressed, totalDeleted],
+        backgroundColor: ["#0077C2", "#07C8C5", "#0E557C"],
+        borderWidth: 0,
+        cutout: 90,
+      },
+    ],
+  };
+
+  const storageReleased = handleStorage(report);
+
+
   return (
     <div className="h-auto w-auto overflow-y-auto rounded-3xl flex-col flex items-center font-inter bg-[#121625] text-white shadow-md">
       <div><div className="float-left mx-10 m-3.5 mt-8">
@@ -30,7 +56,7 @@ const PieChart: React.FC = () => {
           totalCompressed={data.datasets[0].data[1]}
           totalDeleted={data.datasets[0].data[2]}
         />
-        <AdditionalInformation moneySaved={20.01} storageReleased="2GB" />
+        <AdditionalInformation moneySaved={20.01} storageReleased={`${storageReleased.toPrecision(1)}`} />
       </div></div>
     </div>
   );
@@ -86,9 +112,18 @@ const AdditionalInformation: React.FC<AdditionalInformation> = ({
     </div>
     <div className="flex justify-content my-3">
       <FiTrendingUp size={15} color="#07C8C5" className=" float-left mr-3" />
-      <label>{storageReleased} de armazenamento liberado</label>
+      <label>{storageReleased}GB de armazenamento liberado</label>
     </div>
   </div>
 );
 
 export default PieChart;
+
+function handleStorage(report: UserReport) {
+  var totalInBytes: number = 0;
+  report.filesToCompress.forEach(file => totalInBytes = totalInBytes + file.size);
+  report.filesToDelete.forEach(file => totalInBytes = totalInBytes + file.size);
+  const GB = Math.pow(1024, 3);
+  return totalInBytes / GB;
+}
+
