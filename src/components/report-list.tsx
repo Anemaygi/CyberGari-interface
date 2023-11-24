@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Modal from 'react-modal';
 import Button from "./button";
-import { FiFileText, FiTrash2, FiMaximize2 } from "react-icons/fi";
+import { FiTrash2, FiMaximize2 } from "react-icons/fi";
 
 import {
   Card,
@@ -15,6 +15,7 @@ interface DeleteModalProps {
   OnRequestClose: React.ReactEventHandler
   id: string
   handleDelete: (id: string) => void
+  closeModal: () => void
 }
 
 type ReportConfirmation = {
@@ -24,7 +25,7 @@ type ReportConfirmation = {
   userId: string
 }
 
-const DeleteModal: React.FC<DeleteModalProps> = ({isOpen, OnRequestClose, id })  => {
+const DeleteModal: React.FC<DeleteModalProps> = ({isOpen, OnRequestClose, id, handleDelete, closeModal })  => {
   const bg = {
     overlay: {
       background: 'rgba(0, 0, 0, 0.5)'
@@ -47,14 +48,15 @@ const DeleteModal: React.FC<DeleteModalProps> = ({isOpen, OnRequestClose, id }) 
       },
       method: 'PUT', body: JSON.stringify(reportConfirmation)
     }).catch(error => console.error(error));
-
-    OnRequestClose
+    
+    handleDelete(id);
+    closeModal();
   }
 
   return (
     <Modal
         isOpen={isOpen}
-        onRequestClose={OnRequestClose}
+        onRequestClose={closeModal}
         className="m-auto my-[5%] bg-secbackground border-0 text-white shadow-md font-inter w-[50%] rounded-lg"
         style={bg}
     >
@@ -64,7 +66,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({isOpen, OnRequestClose, id }) 
 
             <div className="grid grid-cols-1 lg:grid-cols-9 mt-3 text-center">
                 <div className="col-span-1 lg:col-start-3 mr-5"><Button title={"Remover"} handleClick={handleFileRemoval}/></div>
-                <button className="col-span-1 lg:col-start-6 lg:pl-7" onClick={OnRequestClose}>Fechar</button>
+                <button className="col-span-1 lg:col-start-6 lg:pl-7" onClick={closeModal}>Fechar</button>
             </div>
         </div>
     </Modal>
@@ -96,7 +98,7 @@ const DeleteButton: React.FC<ActionButtonProps> = ({ id, handleDelete })  => {
   return(
     <>
       <div className="flex items-center"><div onClick={abrirModal} className="bg-[#bb1332] ml-2 cursor-pointer rounded-md h-8 w-8 flex items-center justify-center"><FiTrash2 size={20} /></div></div>
-      <DeleteModal isOpen={modalIsOpen} OnRequestClose={fecharModal} id={id} handleDelete={handleDelete}/>
+      <DeleteModal isOpen={modalIsOpen} OnRequestClose={fecharModal} id={id} handleDelete={handleDelete} closeModal={fecharModal}/>
     </>
   );
 }
@@ -143,6 +145,7 @@ const ReportList: React.FC<ReportsListProps> = ({report}) => {
   }, [report])
 
   const handleDelete = (id: string) => {
+    console.log('oi')
     const updatedFiles = filesToDelete.filter(file => file.id !== id);
     setFilesToDelete(updatedFiles)
   }
