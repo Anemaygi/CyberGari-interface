@@ -24,6 +24,11 @@ function Icon({ icon, handleClick }: IconProps) {
 const Settings: React.FC = () => {
 
   const [user, setUser] = useState<any | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 2000)
+  }, [])
 
   useEffect(() => {
     if (!user && localStorage.getItem('user')) {
@@ -32,18 +37,21 @@ const Settings: React.FC = () => {
   }, [])
 
   const [userConfig, setUserConfig] = useState<userConfig>({
-    fileExtension: false,
-    fileSize: false,
-    tags: false,
-    numVisualizations: false,
-    autExclusion: false,
-    autCompression: false,
-    periodicityScale: PeriodicityScale.MANUALLY,
-    periodicityTime: 0,
-    maxLimit: '',
-    maxLimitValue: 0,
-    lastSeen: false,
-    otherData: false,
+    id: '',
+    userConfig: {
+        fileExtension: false,
+        fileSize: false,
+        tags: false,
+        numVisualizations: false,
+        autExclusion: false,
+        autCompression: false,
+        periodicityScale: PeriodicityScale.MANUALLY,
+        periodicityTime: 0,
+        maxLimitScale: '',
+        maxLimitValue: 0,
+        lastSeen: false,
+        otherData: false,
+    }
   })
 
   useEffect(() => {
@@ -53,18 +61,21 @@ const Settings: React.FC = () => {
         .then(response => response.json())
         .then(json => setUserConfig(
           {
-            fileExtension: json.fileExtension,
-            fileSize: json.fileSize,
-            tags: json.tags,
-            numVisualizations: json.numVisualizations,
-            autExclusion: json.autExclusion,
-            autCompression: json.autCompression,
-            periodicityScale: json.periodicityScale.MANUALLY,
-            periodicityTime: json.periodicityTime,
-            maxLimit: json.maxLimit,
-            maxLimitValue: json.maxLimitValue,
-            lastSeen: json.lastSeen,
-            otherData: json.otherData,
+            id: user.userId,
+            userConfig: {
+              fileExtension: json.userConfig.fileExtension,
+              fileSize: json.userConfig.fileSize,
+              tags: json.userConfig.tags,
+              numVisualizations: json.userConfig.numVisualizations,
+              autExclusion: json.userConfig.autExclusion,
+              autCompression: json.userConfig.autCompression,
+              periodicityScale: json.userConfig.periodicityScale,
+              periodicityTime: json.userConfig.periodicityTime,
+              maxLimitScale: json.userConfig.maxLimitScale,
+              maxLimitValue: json.userConfig.maxLimitValue,
+              lastSeen: json.userConfig.lastSeen,
+              otherData: json.userConfig.otherData,
+            }
           }
         ))
         .catch(error => console.error(error));
@@ -74,7 +85,7 @@ const Settings: React.FC = () => {
   const handleClick = () => {
     // save data
     if (user) {
-      fetch(`http://localhost:8080/users/${user.userId}`, {
+      fetch(`http://localhost:8080/users`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -99,12 +110,22 @@ const Settings: React.FC = () => {
     <div className="flex p-4 h-screen bg-secbackground">
       <div className='flex shadow-lg rounded-lg w-screen h-full p-2 bg-background'>
         <SideBar />
-        <div className="overflow-y-auto w-full flow-root static">
-          <div><SettingsForm isDescriptionOn={false} userConfig={userConfig} setUserConfig={setUserConfig} /></div>
-          <div><Icon icon={<FiSave size="62" />} handleClick={handleClick} /></div>
+        {
+          loading && (
+            <div className="h-full w-full flex">
+              <img className='w-[300px] m-auto' src={'src/img/loading.gif'}></img>
+            </div>
+          )
+        }
+        {
+          !loading && (
+            <div className="overflow-y-auto w-full flow-root static">
+              <div><SettingsForm isDescriptionOn={false} userConfig={userConfig} setUserConfig={setUserConfig} /></div>
+              <div><Icon icon={<FiSave size="62" />} handleClick={handleClick} /></div>
 
-        </div>
-
+            </div>
+          )
+        }
       </div>
     </div>
 

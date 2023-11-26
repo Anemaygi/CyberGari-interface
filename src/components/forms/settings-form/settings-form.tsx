@@ -12,18 +12,21 @@ export enum PeriodicityScale {
 }
 
 export interface userConfig {
-    fileExtension: boolean;
-    fileSize: boolean;
-    tags: boolean;
-    numVisualizations: boolean;
-    autExclusion: boolean;
-    autCompression: boolean;
-    periodicityScale: PeriodicityScale;
-    periodicityTime: number;
-    maxLimit: string;
-    maxLimitValue: number;
-    lastSeen: boolean;
-    otherData: boolean;
+    id: string;
+    userConfig: {
+        fileExtension: boolean;
+        fileSize: boolean;
+        tags: boolean;
+        numVisualizations: boolean;
+        autExclusion: boolean;
+        autCompression: boolean;
+        periodicityScale: PeriodicityScale;
+        periodicityTime: number;
+        maxLimitScale: string;
+        maxLimitValue: number;
+        lastSeen: boolean;
+        otherData: boolean;
+    }
 }
 
 type SettingsProps = {

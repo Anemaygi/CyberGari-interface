@@ -1,7 +1,7 @@
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { userConfig } from "./settings-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type SettingsProps = {
     isDescriptionOn: boolean;
@@ -27,6 +27,13 @@ const SwitchForm: React.FC<SettingsProps> = ({isDescriptionOn, configs, setConfi
     const [compress, setCompress] = useState(false)
     const [exclusion, setExclusion] = useState(false)
 
+    useEffect(() => {
+        if(configs.id !== ""){
+            setExclusion(configs.userConfig.autExclusion);
+            setCompress(configs.userConfig.autCompression);
+        }
+    }, [configs])
+
 
     return ( 
     <div className="m-2 rounded-3xl flex flex-col mx-6 font-inter text-white mb-10">
@@ -39,7 +46,10 @@ const SwitchForm: React.FC<SettingsProps> = ({isDescriptionOn, configs, setConfi
                     setExclusion(exclusionValue);
                     setConfigs(currValue => ({
                     ...currValue,
-                    autExclusion: exclusionValue,
+                    userConfig: {
+                        ...currValue.userConfig,
+                        autExclusion: exclusionValue,
+                    },
                     }));
                 }}
             />
@@ -53,7 +63,10 @@ const SwitchForm: React.FC<SettingsProps> = ({isDescriptionOn, configs, setConfi
                 setCompress(isCompressed);
                 setConfigs(currValue => ({
                   ...currValue,
-                  autCompression: isCompressed,
+                  userConfig: {
+                    ...currValue.userConfig,
+                    autCompression: isCompressed,
+                  },
                 }));
               }}
             />
