@@ -57,8 +57,11 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     handleReportGeneration();
-    localStorage.setItem('reportId', userReport.id);
   }, [user])
+
+  useEffect(() => {
+    localStorage.setItem('reportId', userReport.id);
+  }, [userReport])
   
   return (
       <div className="flex p-4 h-screen bg-secbackground">

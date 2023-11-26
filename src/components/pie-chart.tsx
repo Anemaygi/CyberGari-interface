@@ -76,7 +76,7 @@ const Subtitle: React.FC<SubtitleProps> = ({
   <div className="text-sm">
     <div className="flex justify-content my-6">
       <FiCircle size={25} color="#0E557C" className="stroke-[4px] mr-3" />
-      <label>{totalCompressed}% de arquivos comprimidos</label>
+      <label>{totalCompressed.toPrecision(4)}% de arquivos comprimidos</label>
     </div>
     <div className="flex justify-content my-6">
       <FiCircle
@@ -84,12 +84,12 @@ const Subtitle: React.FC<SubtitleProps> = ({
         color="#07C8C5"
         className="stroke-[4px] float-left mr-3"
       />
-      <label>{totalDeleted}% de arquivos para exclusão</label>
+      <label>{totalDeleted.toPrecision(4)}% de arquivos para exclusão</label>
     </div>
     <div className="flex justify-content my-6">
       <FiCircle size={25} color="#0077C2" className="stroke-[4px] mr-3" />
       <label className="mt-[-3%]">
-        {totalUsed}% de arquivos com acesso <br />
+        {totalUsed.toPrecision(4)}% de arquivos com acesso <br />
         frequente
       </label>
     </div>
