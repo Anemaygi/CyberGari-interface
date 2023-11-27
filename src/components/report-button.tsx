@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiSearch } from "react-icons/fi";
 import {
   AlertDialog,
@@ -12,19 +12,21 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import FileItem from './file-item';
+import { UserReport } from '@/pages/dashboard';
  
 
 interface CompressButtonProps{
-  id: String;
+  id: string;
+  handleCompress: (id: string) => void
 }
 
-const CompressButton: React.FC<CompressButtonProps> = ({id}) => {
+const CompressButton: React.FC<CompressButtonProps> = ({id, handleCompress}) => {
   function compressItem(id: String){
     console.log("Comprime "+id);
   }  
   
   return(
-    <div className="flex items-center"><div onClick={() => compressItem( id )} className="bg-azul2 ml-2 cursor-pointer  text-xs rounded-md py-1 px-4 flex items-center justify-center">Comprimir</div></div>
+    <div className="flex items-center"><div onClick={() => handleCompress( id )} className="bg-azul2 ml-2 cursor-pointer  text-xs rounded-md py-1 px-4 flex items-center justify-center">Comprimir</div></div>
   );
 }
 
@@ -32,115 +34,81 @@ const CompressButton: React.FC<CompressButtonProps> = ({id}) => {
 
 interface ReportButtonProps {
   size: number;
+  handleClick: () => void
+  getReport: () => UserReport
 }
 
-const ReportButton: React.FC<ReportButtonProps> = ({size}) => {
-  const handleClick = () => {
-    console.log("clicouuu");
-  };
+const ReportButton: React.FC<ReportButtonProps> = ({size, handleClick, getReport}) => {
+  const [report, setReport] = useState<UserReport>();
+  const [filesToCompress, setFilesToCompress] = useState([{ id: "", name: "", size: 0, modifiedTime: "" }]);
 
+  const handleFileCompress = (id : string) => {
+    const user = JSON.parse(localStorage.getItem('user')!);
 
-  const files = {
-    "toCompressFiles": [
-      {
-        "id": "1",
-        "name": "File 1",
-        "lastView": "01/10/2023"
+    const reportConfirmation = {
+      filesToDelete: [],
+      filesToCompress: [id],
+      reportId: localStorage.getItem('reportId'),
+      userId: user.userId
+    }
+
+    fetch(`http://localhost:8080/reports`, { 
+      headers: {
+        'Content-Type': 'application/json',
       },
-      {
-        "id": "2",
-        "name": "File 2",
-        "lastView": "15/09/2023"
+      method: 'PUT', body: JSON.stringify(reportConfirmation)
+    }).catch(error => console.error(error));
+
+    handleCompressList(id)
+  }
+  
+  
+  const handleReport = () => {
+    handleClick();
+    setReport(getReport());
+  }
+
+  useEffect(() => {
+    handleReport();
+  }, [])
+  
+  useEffect(() => {
+    if (report) {
+      setFilesToCompress(report!.filesToCompress)
+    }
+  }, [report])
+
+  const handleCompressList = (id: string) => {
+    const updatedFiles = filesToCompress.filter(file => file.id !== id);
+    setFilesToCompress(updatedFiles)
+  }
+
+  const handleCompressAll = () => {
+    const user = JSON.parse(localStorage.getItem('user')!);
+
+    const reportConfirmation = {
+      filesToDelete: [],
+      filesToCompress: report!.filesToCompress.map(file => file.id),
+      reportId: localStorage.getItem('reportId'),
+      userId: user.userId
+    }
+
+    fetch(`http://localhost:8080/reports`, { 
+      headers: {
+        'Content-Type': 'application/json',
       },
-      {
-        "id": "3",
-        "name": "File 3",
-        "lastView": "05/08/2023"
-      },
-      {
-        "id": "4",
-        "name": "File 4",
-        "lastView": "01/10/2023"
-      },
-      {
-        "id": "5",
-        "name": "File 5",
-        "lastView": "15/09/2023"
-      },
-      {
-        "id": "6",
-        "name": "File 6",
-        "lastView": "05/08/2023"
-      },
-      {
-        "id": "7",
-        "name": "File 7",
-        "lastView": "01/10/2023"
-      },
-      {
-        "id": "8",
-        "name": "File 8",
-        "lastView": "15/09/2023"
-      },
-      {
-        "id": "9",
-        "name": "File 9",
-        "lastView": "05/08/2023"
-      },
-      {
-        "id": "10",
-        "name": "Teste 1",
-        "lastView": "01/10/2023"
-      },
-      {
-        "id": "12",
-        "name": "R 2",
-        "lastView": "15/09/2023"
-      },
-      {
-        "id": "13",
-        "name": "G 3",
-        "lastView": "05/08/2023"
-      },
-      {
-        "id": "14",
-        "name": "B 4",
-        "lastView": "01/10/2023"
-      },
-      {
-        "id": "15",
-        "name": "F 5",
-        "lastView": "15/09/2023"
-      },
-      {
-        "id": "16",
-        "name": "H 6",
-        "lastView": "05/08/2023"
-      },
-      {
-        "id": "17",
-        "name": "I 7",
-        "lastView": "01/10/2023"
-      },
-      {
-        "id": "18",
-        "name": "J 8",
-        "lastView": "15/09/2023"
-      },
-      {
-        "id": "19",
-        "name": "K 9",
-        "lastView": "05/08/2023"
-      }
-    ]
-  };
+      method: 'PUT', body: JSON.stringify(reportConfirmation)
+    }).catch(error => console.error(error));
+
+    setFilesToCompress([]);
+  }
 
   return (
     <>
     <AlertDialog>
       
       <AlertDialogTrigger asChild>
-        <div className="shadow-md border-2 border-roxo1 rounded-full p-2 inline-flex cursor-pointer h-72 w-72" onClick={handleClick}>
+        <div className="shadow-md border-2 border-roxo1 rounded-full p-2 inline-flex cursor-pointer h-72 w-72" onClick={handleReport}>
           <div className="bg-gradient-to-r m-1 from-roxo1 to-roxo2 w-full rounded-full flex items-center justify-center">
             <div className="text-white"> <FiSearch size={size}/> </div>
           </div>
@@ -160,20 +128,20 @@ const ReportButton: React.FC<ReportButtonProps> = ({size}) => {
 
         <div className="m-5">
         <div className="overflow-y-auto grow w-full h-56">
-          {
-          files.toCompressFiles.map(file => (
-                <div className="m-2">
-                  <FileItem file={file} action={<CompressButton id={file.id}/>} />
-                  <div className="h-px bg-white/10 my-2"></div>
-                </div>
-              ))
-              }
+          { report && filesToCompress &&
+            filesToCompress.map(file => (
+                  <div className="m-2">
+                    <FileItem file={file} action={<CompressButton id={file.id} handleCompress={handleFileCompress}/>} />
+                    <div className="h-px bg-white/10 my-2"></div>
+                  </div>
+                ))
+                }
         </div>
         </div>
 
         <AlertDialogFooter className="flex items-center">
           <AlertDialogAction>
-          <div className="shadow-sm bg-gradient-to-r m-0 from-roxo1 to-roxo2 w-auto py-2 px-4 cursor-pointer rounded-2xl flex items-center justify-center" onClick={()=>{console.log("Comprmir todos")}}>
+          <div className="shadow-sm bg-gradient-to-r m-0 from-roxo1 to-roxo2 w-auto py-2 px-4 cursor-pointer rounded-2xl flex items-center justify-center" onClick={handleCompressAll}>
             <div className="text-white">Comprimir todos os arquivos</div>
           </div>
           </AlertDialogAction>

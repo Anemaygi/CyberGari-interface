@@ -13,7 +13,7 @@ type File = {
   modifiedTime: string;
 }
 
-type UserReport = {
+export type UserReport = {
   id: string;
   filesToCompress: File[];
   filesToDelete: File[];
@@ -55,6 +55,10 @@ const Dashboard: React.FC = () => {
     
   }
 
+  function getReport() {
+    return userReport
+  }
+
   useEffect(() => {
     handleReportGeneration();
   }, [user])
@@ -74,7 +78,7 @@ const Dashboard: React.FC = () => {
             <div className="col-span-7 lg:col-span-3"><ReportList report={userReport}/></div>
             <div className="col-span-7"><HistoryChart /></div>
             <div className="col-span-7 lg:col-span-3 flex justify-center align-center items-center">
-              <ReportButton size={80} />
+              <ReportButton handleClick={handleReportGeneration} getReport={getReport} size={80} />
             </div>
           </div>
            

@@ -90,10 +90,6 @@ const DeleteButton: React.FC<ActionButtonProps> = ({ id, handleDelete })  => {
   function fecharModal() {
     setIsOpen(false);
   }
-  
-  const deleteItem = (id: String) => {
-    console.log("Deletou "+id);
-  };
     
   return(
     <>
@@ -145,7 +141,6 @@ const ReportList: React.FC<ReportsListProps> = ({report}) => {
   }, [report])
 
   const handleDelete = (id: string) => {
-    console.log('oi')
     const updatedFiles = filesToDelete.filter(file => file.id !== id);
     setFilesToDelete(updatedFiles)
   }
