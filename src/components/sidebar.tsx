@@ -20,7 +20,7 @@ const SideBar: React.FC = () => {
       <div className="flex flex-grow flex-col">
 
         {sidebarItems.map((item) => (
-          <SideBarIcon icon={item.icon} href={item.href} title={item.title} />
+          <SideBarIcon key={item.title} icon={item.icon} href={item.href} title={item.title} />
         ))}
 
       </div>
