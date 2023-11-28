@@ -5,6 +5,7 @@ import PieChart from '@/components/pie-chart';
 import HistoryChart from '@/components/history-chart';
 import ReportButton from '@/components/report-button';
 import ReportList from '@/components/report-list';
+import { useNavigate } from 'react-router-dom';
 
 type File = {
   id: string;
@@ -21,6 +22,7 @@ type UserReport = {
 }
 
 const Dashboard: React.FC = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState<any | null>(null);
   const [userReport, setUserReport] = useState<UserReport>(
     {
@@ -63,28 +65,39 @@ const Dashboard: React.FC = () => {
     localStorage.setItem('reportId', userReport.id);
   }, [userReport])
   
-  return (
-      <div className="flex p-4 h-screen bg-secbackground">
-        <div className='flex shadow-lg rounded-lg w-screen h-full p-2 bg-background'>
-          <SideBar />
-          
-           <div className="flex flex-grow overflow-y-auto">
-           <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 w-full">
-            <div className="col-span-7 "><PieChart report={userReport}/></div>
-            <div className="col-span-7 lg:col-span-3"><ReportList report={userReport}/></div>
-            <div className="col-span-7"><HistoryChart /></div>
-            <div className="col-span-7 lg:col-span-3 flex justify-center align-center items-center">
-              <ReportButton size={80} />
+  useEffect(() => {
+    if (!user) { 
+      navigate('/login');
+    }
+  }, [user, navigate]);
+
+  if(user){
+    return (
+        <div className="flex p-4 h-screen bg-secbackground">
+          <div className='flex shadow-lg rounded-lg w-screen h-full p-2 bg-background'>
+            <SideBar />
+            
+            <div className="flex flex-grow overflow-y-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 w-full">
+              <div className="col-span-7 "><PieChart report={userReport}/></div>
+              <div className="col-span-7 lg:col-span-3"><ReportList report={userReport}/></div>
+              <div className="col-span-7"><HistoryChart /></div>
+              <div className="col-span-7 lg:col-span-3 flex justify-center align-center items-center">
+                <ReportButton size={80} />
+              </div>
+            </div>
             </div>
           </div>
-           
-           </div>
-
-
         </div>
-      </div>
-    
-  );
+    );
+}
+return (
+<div className="h-full w-full flex mt-10">
+  <img className='w-[300px] m-auto' src={'src/img/loading.gif'}></img>
+</div>
+);
+
+
 };
 
 export default Dashboard;

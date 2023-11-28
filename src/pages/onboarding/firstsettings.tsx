@@ -95,8 +95,14 @@ const FirstSettings: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, [user, navigate]);
+
   
-  return (
+  if (user) return (
     <div className="flex p-4 bg-secbackground">
             <div className='flex flex-col items-center shadow-lg rounded-lg w-screen h-full p-2 m-2 bg-background overflow-y-auto'>
               
@@ -126,6 +132,11 @@ const FirstSettings: React.FC = () => {
     </div>
   
   );
+  return (
+    <div className="h-full w-full flex mt-10">
+      <img className='w-[300px] m-auto' src={'src/img/loading.gif'}></img>
+    </div>
+    );
 };
 
 export default FirstSettings;
