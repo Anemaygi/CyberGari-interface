@@ -1,6 +1,8 @@
 import FilesView from "@/components/files-view";
 import LabelsMenu from "@/components/labels-menu";
 import SideBar from "@/components/sidebar";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Tags: React.FC = () => {
   
@@ -21,8 +23,21 @@ const Tags: React.FC = () => {
       return fileList;
   }
 
+  const [user, setUser] = useState<any | null>(null);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!user && localStorage.getItem('user')) {
+      setUser(JSON.parse(localStorage.getItem('user')!));
+    }
+  }, [])
 
-    return (
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, [user, navigate]);
+
+    if(user) return (
         <div className="flex p-4 h-full lg:h-screen bg-secbackground">
           <div className='flex shadow-lg rounded-lg w-screen h-full p-2 bg-background'>
             <SideBar />
@@ -35,6 +50,11 @@ const Tags: React.FC = () => {
         </div>
       
     );
+    return (
+      <div className="h-full w-full flex mt-10">
+        <img className='w-[300px] m-auto' src={'src/img/loading.gif'}></img>
+      </div>
+      );
   };
   
   export default Tags;

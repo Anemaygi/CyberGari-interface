@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {Routes, Route, useNavigate} from 'react-router-dom';
 
 import { FiTrash2, FiSearch, FiLayout } from "react-icons/fi";
@@ -30,10 +30,23 @@ const Presentation: React.FC = () => {
     const navigate = useNavigate();
     const handleClick = () => {
       navigate('/firstsettings');
-      console.log("teste")
     };
   
-  return (
+    const [user, setUser] = useState<any | null>(null);
+    useEffect(() => {
+      if (!user && localStorage.getItem('user')) {
+        setUser(JSON.parse(localStorage.getItem('user')!));
+      }
+    }, []);
+
+    useEffect(() => {
+      if (!user) {
+        navigate('/login');
+      }
+    }, [user, navigate]);
+
+    
+  if (user) return (
       <div className="flex p-4 h-screen bg-secbackground">
         <div className='flex flex-col items-center shadow-lg rounded-lg w-screen h-full p-2 m-2 bg-background overflow-y-auto'>
           
@@ -54,6 +67,11 @@ const Presentation: React.FC = () => {
       </div>
     
   );
+  return (
+    <div className="h-full w-full flex mt-10">
+      <img className='w-[300px] m-auto' src={'src/img/loading.gif'}></img>
+    </div>
+    );
 };
 
 export default Presentation;

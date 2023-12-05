@@ -3,6 +3,7 @@ import SideBar from '@/components/sidebar';
 import SettingsForm from '@/components/forms/settings-form/settings-form';
 import { FiSave } from 'react-icons/fi';
 import { userConfig, PeriodicityScale } from '@/components/forms/settings-form/settings-form';
+import { useNavigate } from 'react-router-dom';
 
 interface IconProps {
   icon: React.ReactNode;
@@ -23,6 +24,7 @@ function Icon({ icon, handleClick }: IconProps) {
 
 const Settings: React.FC = () => {
 
+  const navigate = useNavigate();
   const [user, setUser] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -104,32 +106,44 @@ const Settings: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, [user, navigate]);
 
+  if(user)
+    return (
+      <div className="flex p-4 h-screen bg-secbackground">
+        <div className='flex shadow-lg rounded-lg w-screen h-full p-2 bg-background'>
+          <SideBar />
+          {
+            loading && (
+              <div className="h-full w-full flex">
+                <img className='w-[300px] m-auto' src={'src/img/loading.gif'}></img>
+              </div>
+            )
+          }
+          {
+            !loading && (
+              <div className="overflow-y-auto w-full flow-root static">
+                <div><SettingsForm isDescriptionOn={false} userConfig={userConfig} setUserConfig={setUserConfig} /></div>
+                <div><Icon icon={<FiSave size="62" />} handleClick={handleClick} /></div>
 
-  return (
-    <div className="flex p-4 h-screen bg-secbackground">
-      <div className='flex shadow-lg rounded-lg w-screen h-full p-2 bg-background'>
-        <SideBar />
-        {
-          loading && (
-            <div className="h-full w-full flex">
-              <img className='w-[300px] m-auto' src={'src/img/loading.gif'}></img>
-            </div>
-          )
-        }
-        {
-          !loading && (
-            <div className="overflow-y-auto w-full flow-root static">
-              <div><SettingsForm isDescriptionOn={false} userConfig={userConfig} setUserConfig={setUserConfig} /></div>
-              <div><Icon icon={<FiSave size="62" />} handleClick={handleClick} /></div>
-
-            </div>
-          )
-        }
+              </div>
+            )
+          }
+        </div>
       </div>
-    </div>
+    );
+    return (
+      <div className="h-full w-full flex mt-10">
+        <img className='w-[300px] m-auto' src={'src/img/loading.gif'}></img>
+      </div>
+      );
+  
 
-  );
+
 };
 
 export default Settings;
