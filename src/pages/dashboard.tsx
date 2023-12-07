@@ -70,7 +70,7 @@ const Dashboard: React.FC = () => {
   }, [userReport])
   
   useEffect(() => {
-    if (!user) { 
+    if (!localStorage.getItem('user')) { 
       navigate('/login');
     }
   }, [user, navigate]);
@@ -83,7 +83,7 @@ const Dashboard: React.FC = () => {
             
             <div className="flex flex-grow overflow-y-auto">
             <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 w-full">
-              <div className="col-span-7 "><PieChart report={userReport}/></div>
+              <div className="col-span-7"><PieChart report={userReport}/></div>
               <div className="col-span-7 lg:col-span-3"><ReportList report={userReport}/></div>
               <div className="col-span-7"><HistoryChart /></div>
               <div className="col-span-7 lg:col-span-3 flex justify-center align-center items-center">

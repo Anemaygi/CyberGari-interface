@@ -107,7 +107,7 @@ const Settings: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!user) {
+    if (!localStorage.getItem('user')) { 
       navigate('/login');
     }
   }, [user, navigate]);

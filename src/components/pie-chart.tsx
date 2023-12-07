@@ -45,7 +45,7 @@ const PieChart: React.FC<PieChartProps> = ({report}) => {
 
 
   return (
-    <div className="h-auto w-auto overflow-y-auto rounded-3xl flex-col flex items-center font-inter bg-[#121625] text-white shadow-md">
+    <div className="h-full w-auto overflow-y-auto rounded-3xl flex-col flex items-center justify-center font-inter bg-[#121625] text-white shadow-md">
       <div><div className="float-left mx-10 m-3.5 mt-8">
         <Doughnut data={data} />
       </div>
