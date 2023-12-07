@@ -48,9 +48,9 @@ const Settings: React.FC = () => {
         autExclusion: false,
         autCompression: false,
         periodicityScale: PeriodicityScale.MANUALLY,
-        periodicityTime: 0,
-        maxLimitScale: '',
-        maxLimitValue: 0,
+        periodicityTime: 1,
+        maxLimitScale: 'MANUALLY',
+        maxLimitValue: 1,
         lastSeen: false,
         otherData: false,
     }
