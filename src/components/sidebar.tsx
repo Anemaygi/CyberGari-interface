@@ -1,6 +1,7 @@
 import React from 'react';
 import { FiSettings, FiHome, FiLogOut, FiTag } from "react-icons/fi";
 import LogoIcon from '@/img/logo.svg';
+import { useNavigate } from 'react-router-dom';
 
 
 const sidebarItems = [
@@ -10,7 +11,15 @@ const sidebarItems = [
 ];
 
 
+
+
 const SideBar: React.FC = () => {
+  const navigate = useNavigate();
+  const logOut = () => {
+    localStorage.removeItem('user');
+    navigate('/login');
+  }
+
   return (
     <div className="h-[98%] w-16 justify-content m-2 rounded-3xl flex flex-col bg-[#121625] mx-6 text-white shadow-md">
 
@@ -26,7 +35,7 @@ const SideBar: React.FC = () => {
       </div>
 
       <div className="h-px bg-gradient-to-r from-rosagrad to-roxograd mx-3"></div>
-      <SideBarIcon icon={<FiLogOut size="28" />} href="#logout" title="Log out" />
+      <div className="w-fit h-fit" onClick={logOut}><SideBarIcon icon={<FiLogOut size="28" />} href="" title="Log out" /></div>
     </div>
   );
 };
