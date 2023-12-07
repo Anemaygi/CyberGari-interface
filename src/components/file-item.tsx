@@ -24,7 +24,7 @@ const FileItem: React.FC<ManipuleItem> = ({file, action}) => {
     <div className="w-autospace-x-2 flex flex-row align-center ">
       <div className="flex items-center text-roxo1 "><FiFileText size={24} /></div>
       <div className="flex flex-grow flex-col text-left mx-3">
-        <p className="font-bold">{file.name}</p>
+        <p className="font-bold break-all">{file.name}</p>
         <p className="text-sm">Último acesso em {toLocalDate(file.modifiedTime)}</p>
       </div>
       {action}
