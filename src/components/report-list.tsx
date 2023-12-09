@@ -108,8 +108,13 @@ const UncompressButton: React.FC<UncompressButtonProps> = ({ id })  => {
   const [filesToUncompress, setFilesToUncompress] = useState<Array<string>>([]);
 
   const handleUncompress = (id: string) => {
-    
-    setFilesToUncompress([id]);
+  //
+  //
+  // Descomprimir arquivo passando lista de ids
+  //
+  //
+  
+  setFilesToUncompress([id]);
     console.log(filesToUncompress);
     fetch(`http://localhost:8080/files/uncompress`, { 
                   method: 'PUT',
@@ -123,6 +128,7 @@ const UncompressButton: React.FC<UncompressButtonProps> = ({ id })  => {
                   if (!response.ok) {
                       throw new Error(`Status: ${response.status}`);
                       }
+                      // console.log(JSON.stringify(filesToUncompress));
                       console.log(response)
                   } 
               )
@@ -165,15 +171,22 @@ const ReportList: React.FC<ReportsListProps> = ({report}) => {
     setFilesToDelete(report.filesToDelete);
   }, [report])
 
-//   useEffect(() => {
-//     fetch(`http://localhost:8080/files/compressed`, { 
-//       method: 'GET'})
-//       .then(response => response.json())
-//       .then(json => {
-//         console.log(json)
-//       })
-//       .catch(error => console.error(error));
-// },[])
+
+  //
+  //
+  // GET dos arquivos que estão comprimidos
+  //
+  //
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/files/compressed`, { 
+      method: 'GET'})
+      .then(response => response.json())
+      .then(json => {
+        console.log(json)
+      })
+      .catch(error => console.error(error));
+},[])
 
   const handleDelete = (id: string) => {
     const updatedFiles = filesToDelete.filter(file => file.id !== id);
