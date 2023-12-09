@@ -25,10 +25,6 @@ const Tags: React.FC = () => {
   }
 
 
-  function getPathList() {
-    return filePaths;
-}
-
 function getFileList() {
   return fileSelect;
 }
