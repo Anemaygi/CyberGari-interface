@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { FiCornerLeftUp, FiHome } from "react-icons/fi";
 
-interface File{
+export interface File{
   filePath:string,
   id: string,
   modifiedTime: string,
@@ -13,8 +13,8 @@ interface File{
 
 interface ManipuleItem {
   file: File,
-  handleClick: (name:string,pathname:string) => void,
-  getFileItem: () => string[]
+  handleClick: (fileItem:File) => void,
+  getFileItem: () => File[]
 }
 
 
@@ -22,13 +22,14 @@ const FileType: React.FC<ManipuleItem> = ({file, handleClick, getFileItem}) => {
   
   const name = file.name;
   const pathname = file.filePath;
+  const id = file.id;
 
   const [backgroundColor, setColor] = useState("")
 
   const handleFileClick = () => {
     
-    handleClick(name,pathname)
-    if(getFileItem().includes(pathname)){
+    handleClick(file)
+    if(getFileItem().some(item => item.id === file.id)){
       setColor("bg-white bg-opacity-5")
     } else {
       setColor("")
@@ -51,8 +52,8 @@ const FileType: React.FC<ManipuleItem> = ({file, handleClick, getFileItem}) => {
 }
 
 interface FilesProps {
-  handleFileClick: (name:string,pathname:string) => void;
-  getFileList: () => string[]
+  handleFileClick: (fileItem:File) => void;
+  getFileList: () => File[]
   search: string,
 }
 
@@ -148,8 +149,8 @@ useEffect(() => {
 
 
  
-function handleFolderClick(fileName:string) {
-  const fileNameRight = fileName+'/'
+function handleFolderClick(fileName:File) {
+  const fileNameRight = fileName.filePath+'/'
   setCurrentFolder(prevCurrentFolder => prevCurrentFolder + fileNameRight);
   setListSubfolder(getSubfolders(currentFolder))
 }

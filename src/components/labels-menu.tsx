@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import Button from "./button";
 import { Slider } from "./ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { File } from '@/components/files-view'
 
 
 
@@ -163,7 +164,7 @@ const CreateModal: React.FC<CreateModalProps> = ({ isOpen, OnRequestClose }) => 
 interface AddTagModalProps {
     isOpen: boolean,
     OnRequestClose: React.ReactEventHandler,
-    getFileList: () => string[],
+    getFileList: () => File[],
 }
 
 interface FileTagUpdateVO {
@@ -214,7 +215,7 @@ const AddTagModal: React.FC<AddTagModalProps> = ({ isOpen, OnRequestClose, getFi
         let requestList: Array<FileTagUpdateVO> = []
         for (const file of fileList) {
             const newItem: FileTagUpdateVO = {
-                fileId: file,
+                fileId: file.id,
                 tagNames: [addTagName],
             };
             requestList.push(newItem);
@@ -323,14 +324,13 @@ interface RemoveTagModalProps {
     isOpen: boolean;
     listSize: number;
     OnRequestClose: React.ReactEventHandler
-    getFileList: () => string[],
+    getFileList: () => File[],
 
 }
 
 const RemoveTagModal: React.FC<RemoveTagModalProps> = ({ isOpen, OnRequestClose, listSize, getFileList }) => {
     const [user, setUser] = useState<any | null>(null);
     const [tagList, setTagList] = useState<Array<Tag>>([]);
-    const [addTagName, setAddTagName] = useState<string>("");
     const [requestBody, setRequestBody] = useState<Array<FileTagUpdateVO>>([]);
     const [warning, setWarning] = useState<string>("");
 
@@ -361,14 +361,16 @@ const RemoveTagModal: React.FC<RemoveTagModalProps> = ({ isOpen, OnRequestClose,
         const fileList = getFileList();
         let requestList: Array<FileTagUpdateVO> = []
         for (const file of fileList) {
+            const idFile = file.id
             const newItem: FileTagUpdateVO = {
-                fileId: file,
+                fileId: idFile,
                 tagNames: [],
             };
             requestList.push(newItem);
         }
 
         setRequestBody(requestList)
+        console.log(requestList)
 
         fetch(`http://localhost:8080/tags/files/${user.userId}`, {
             method: 'PUT',
@@ -428,7 +430,7 @@ const RemoveTagModal: React.FC<RemoveTagModalProps> = ({ isOpen, OnRequestClose,
 }
 
 interface LabelsMenuProps {
-    getFileList: () => string[],
+    getFileList: () => File[],
     setSearch: React.Dispatch<React.SetStateAction<string>>,
 }
 
