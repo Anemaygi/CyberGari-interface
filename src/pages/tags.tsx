@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Tags: React.FC = () => {
-  
+  const [files, setFiles] = useState([]);
   var fileList : string[] = [];
+  
   
 
   function handleFileClick(name: string) {
@@ -36,6 +37,8 @@ const Tags: React.FC = () => {
       navigate('/login');
     }
   }, [user, navigate]);
+
+  
 
     if(user) return (
         <div className="flex p-4 h-full lg:h-screen bg-secbackground">

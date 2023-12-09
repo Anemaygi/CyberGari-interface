@@ -1,6 +1,6 @@
 import { faFile, faFolder } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ManipuleItem {
   name: string;
@@ -15,6 +15,7 @@ const FileType: React.FC<ManipuleItem> = ({name, type, handleClick, getFileItem}
   const [backgroundColor, setColor] = useState("")
 
   const handleFileClick = () => {
+    
     handleClick(name)
     if(getFileItem().includes(name)){
       setColor("bg-white bg-opacity-5")
@@ -43,79 +44,31 @@ interface FilesProps {
   getFileList: () => string[]
 }
 
-const FilesView: React.FC<FilesProps> = ({handleFileClick, getFileList}) => {
-  const files = {
-    "driveFiles": [
-      {
-        "type": "diretory",
-        "name": "Lorem Ipsum 1",
-        "tags": [
-          "Tag 1"
-        ]
-      },
-      {
-        "type": "diretory",
-        "name": "Lorem Ipsum 2",
-        "tags": [
-          "Tag 1"
-        ]
-      },
-      {
-        "type": "diretory",
-        "name": "Lorem Ipsum 3",
-        "tags": [
-          "Tag 1"
-        ]
-      },
-      {
-        "type": "diretory",
-        "name": "Lorem Ipsum 4",
-        "tags": [
-          "Tag 1"
-        ]
-      },
-      {
-        "type": "diretory",
-        "name": "LoremIpsum5aaaaaaaaaaaaaa",
-        "tags": [
-          "Tag 1"
-        ]
-      },
-      {
-        "type": "file",
-        "name": "Lorem Ipsum 6",
-        "tags": [
-          "Tag 1"
-        ]
-      },
-      {
-        "type": "file",
-        "name": "Lorem Ipsum 7",
-        "tags": [
-          "Tag 1"
-        ]
-      },
-      {
-        "type": "file",
-        "name": "Lorem Ipsum 8",
-        "tags": [
-          "Tag 1"
-        ]
-      },
-      {
-        "type": "file",
-        "name": "Lorem Ipsum 9",
-        "tags": [
-          "Tag 1"
-        ]
-      }
-    ]
-  };
+interface FileItem {
+  filePath:string,
+  id:string,
+  modifiedTime:string,
+  name:string,
+  type:string,
+}
 
-  return (
+
+const FilesView: React.FC<FilesProps> = ({handleFileClick, getFileList}) => {
+  const [files, setFiles] = useState<FileItem[]>([]);
+  useEffect(() => {
+    fetch(`http://localhost:8080/files/`, { 
+      method: 'GET'})
+      .then(response => response.json())
+      .then(json => {
+        setFiles(json)
+      })
+      .catch(error => console.error(error));
+},[])
+  
+return (
     <div className="lg:h-[90%] mr-5 p-2 overflow-y-auto rounded-3xl flex flex-col bg-[#121625] font-inter text-white shadow-md">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 overflow-y-auto">
-          {files.driveFiles.map(file => (
+          {files.map(file => (
             <FileType name={file.name} type={file.type} handleClick={handleFileClick} getFileItem={getFileList}/>
           ))}
         </div>
