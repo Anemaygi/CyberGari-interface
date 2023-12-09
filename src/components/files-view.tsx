@@ -65,13 +65,39 @@ interface FileItem {
 }
 
 
+
 const FilesView: React.FC<FilesProps> = ({handleFileClick, getFileList, search}) => {
   const [files, setFiles] = useState<FileItem[]>([]);
+  const [rootFolder, setRootFolder] = useState<string>("")
+  
+  function findCommonRootPath(paths: Array<string>) {
+    const splitPaths = paths.map((path: string) => path.split('/'));
+    const minLength = Math.min(...splitPaths.map((path: any) => path.length));
+  
+    let commonRootPath = '';
+    for (let i = 0; i < minLength; i++) {
+      const parts = new Set(splitPaths.map((path: any) => path[i]));
+      if (parts.size === 1) {
+        commonRootPath += parts.values().next().value + '/';
+      } else {
+        break;
+      }
+    }
+  
+    return commonRootPath.slice(0, -1); // Remove trailing slash
+  }
+
+  
+
   useEffect(() => {
     fetch(`http://localhost:8080/files/`, { 
       method: 'GET'})
       .then(response => response.json())
       .then(json => {
+        const filePaths = json.map((file: File) => file.filePath);
+        // const commonRootPath = findCommonRootPath(filePaths);
+        setRootFolder(findCommonRootPath(filePaths))
+        
         setFiles(json)
       })
       .catch(error => console.error(error));
@@ -79,12 +105,12 @@ const FilesView: React.FC<FilesProps> = ({handleFileClick, getFileList, search})
   
 return (
     <div className="lg:h-[90%] mr-5 p-2 overflow-y-auto rounded-3xl flex flex-col bg-[#121625] font-inter text-white shadow-md">
-       <p>RootFolder <FiCornerLeftUp /></p> 
+       <div className="w-full flex flex-wrap items-center p-4 text-roxo1/50"><div className="flex flex-grow">{rootFolder}</div> <FiCornerLeftUp title="Volte para a pasta anterior" /></div> 
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 overflow-y-auto">
           {files
           .filter(file => search === "" || file.name.includes(search))
-          .map(file => (
-            <FileType file={file} handleClick={handleFileClick} getFileItem={getFileList}/>
+          .map((file,idx) => (
+            <FileType key={idx} file={file} handleClick={handleFileClick} getFileItem={getFileList}/>
           ))}
         </div>
     </div> 

@@ -22,9 +22,6 @@ const Tags: React.FC = () => {
     }
   }
 
-  function getFileList() {
-      return fileList;
-  }
 
   function getPathList() {
     return filePaths;

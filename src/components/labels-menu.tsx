@@ -265,8 +265,8 @@ const AddTagModal: React.FC<AddTagModalProps> = ({ isOpen, OnRequestClose, getFi
                         <SelectValue placeholder={"Nome da Tag"} />
                     </SelectTrigger>
                     <SelectContent className="bg-[#D9D9D9] text-black" >
-                        {tagList.map((tag) => (
-                            <SelectItem key={tag.name} value={tag.name}>
+                        {tagList.map((tag, idx) => (
+                            <SelectItem key={idx} value={tag.name}>
                                 {tag.name}
                             </SelectItem>
                         ))}
@@ -518,8 +518,8 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, OnRequestClose }) => 
                         <SelectValue placeholder={"Nome da Tag"} />
                     </SelectTrigger>
                     <SelectContent className="bg-[#D9D9D9] text-black" >
-                        {tagList.map((tag) => (
-                            <SelectItem key={tag.name} value={tag.name}>
+                        {tagList.map((tag,idx) => (
+                            <SelectItem key={idx} value={tag.name}>
                                 {tag.name}
                             </SelectItem>
                         ))}
