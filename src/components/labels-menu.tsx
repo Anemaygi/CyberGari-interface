@@ -313,9 +313,73 @@ interface RemoveTagModalProps {
     isOpen: boolean;
     listSize: number;
     OnRequestClose: React.ReactEventHandler
+    getFileList: () => string[],
+
 }
 
-const RemoveTagModal: React.FC<RemoveTagModalProps> = ({ isOpen, OnRequestClose, listSize }) => {
+const RemoveTagModal: React.FC<RemoveTagModalProps> = ({ isOpen, OnRequestClose, listSize, getFileList }) => {
+    const [user, setUser] = useState<any | null>(null);
+    const [tagList, setTagList] = useState<Array<Tag>>([]);
+    const [addTagName, setAddTagName] = useState<string>("");
+    const [requestBody, setRequestBody] = useState<Array<FileTagUpdateVO>>([]);
+    const [warning, setWarning] = useState<string>("");
+
+    useEffect(() => {
+        const fetchData= async ()=>{if (!user && localStorage.getItem('user')) {
+        setUser(JSON.parse(localStorage.getItem('user')!));
+        }
+
+        if(user) {
+            fetch(`http://localhost:8080/tags/${user.userId}`, { 
+              method: 'GET'})
+              .then(response => response.json())
+              .then(json => setTagList(json))
+              .catch(error => console.error(error));
+          }}
+
+          fetchData()
+
+    }, [user])
+
+
+    const handleRemoveButton = (): void => {
+        
+        setWarning("Loading")
+        const fileList = getFileList();
+        let requestList : Array<FileTagUpdateVO> = []
+        for (const file of fileList) {
+            const newItem: FileTagUpdateVO = {
+                fileId: file,
+                tagNames: [],
+              };
+              requestList.push(newItem);
+        }
+        
+        setRequestBody(requestList)
+        
+        fetch(`http://localhost:8080/tags/files/${user.userId}`, { 
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',  
+                },
+                
+                body: JSON.stringify(requestBody),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Status: ${response.status}`);
+                    }
+                setWarning("Sucess")
+
+                } 
+            )
+              .catch(error =>{
+                setWarning("Error")
+                console.error(error)});
+          };
+    
+   
+
     const bg = {
         overlay: {
           background: 'rgba(0, 0, 0, 0.5)'
@@ -331,11 +395,15 @@ const RemoveTagModal: React.FC<RemoveTagModalProps> = ({ isOpen, OnRequestClose,
         >
              <div className="p-10 text-center">
                 <h2 className="font-bold text-lg my-3">ATENÇÃO</h2>
+                <h2 className={`${warning == "Loading" ? "text-roxo1" : warning == "Error" ? "text-red-500" : warning == "Sucess" ? "text-green-500" : "hidden"} font-bold text-lg my-3`}>
+                {warning == "Loading" ? "Carregando..." : warning == "Error" ? "Não foi possível remover os arquivos de suas tags, tente mais tarde." : warning == "Sucess" ? "Arquivos removidos de suas tags com sucesso!" : ""}
+                </h2>
                 <p className="mb-5">Deseja excluir as tags em {listSize} arquivos?</p>
 
                 <div className="grid grid-cols-1 lg:grid-cols-9 mt-3 text-center">
-                    <div className="col-span-1 lg:col-start-3 mr-5"><Button title={"Remover"} handleClick={() => console.log("Remover")}/></div>
-                    <button className="col-span-1 lg:col-start-6 lg:pl-7" onClick={OnRequestClose}>Fechar</button>
+                    <div className="col-span-1 lg:col-start-3 mr-5"><Button title={"Remover"} handleClick={handleRemoveButton}/></div>
+                    <button className="col-span-1 lg:col-start-6 lg:pl-7" onClick={(e) => {OnRequestClose(e)
+                                                                                            setWarning("")}}>Fechar</button>
                 </div>
             </div>
         </Modal>
@@ -413,11 +481,11 @@ const LabelsMenu: React.FC<LabelsMenuProps> = ({getFileList, setSearch}) => {
             <div className="w-full font-inter col-span-1">
                 <IconButton icon={<FiMinus size={25}/>} title="" handleClick={abrirRemoveModal} />
             </div>
-            <RemoveTagModal isOpen={removeIsOpen} OnRequestClose={fecharRemoveModal} listSize={getFileList().length}/>
+            <RemoveTagModal isOpen={removeIsOpen} OnRequestClose={fecharRemoveModal} listSize={getFileList().length} getFileList={getFileList}/>
             <div className="w-full font-inter col-span-1">
                 <IconButton icon={<FiTrash size={25}/>} title="" handleClick={abrirRemoveModal} />
             </div>
-            <RemoveTagModal isOpen={removeIsOpen} OnRequestClose={fecharRemoveModal} listSize={getFileList().length}/>
+            {/* <RemoveTagModal isOpen={removeIsOpen} OnRequestClose={fecharRemoveModal} listSize={getFileList().length}/> */}
             
 
             <FailModal isOpen={failIsOpen} OnRequestClose={fecharFailModal}/>
