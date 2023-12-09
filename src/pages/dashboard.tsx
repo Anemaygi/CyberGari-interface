@@ -6,6 +6,7 @@ import HistoryChart from '@/components/history-chart';
 import ReportButton from '@/components/report-button';
 import ReportList from '@/components/report-list';
 import { useNavigate } from 'react-router-dom';
+import { HistoryData } from '@/types/history';
 
 type File = {
   id: string;
@@ -23,6 +24,7 @@ export type UserReport = {
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
+  const [historyData, setHistoryData] = useState<HistoryData[]>([])
   const [user, setUser] = useState<any | null>(null);
   const [userReport, setUserReport] = useState<UserReport>(
     {
@@ -57,12 +59,34 @@ const Dashboard: React.FC = () => {
     
   }
 
+  const handleHistoryRequest = () => { 
+    if(user) {
+      fetch(`http://localhost:8080/storage-size-log/${user.userId}`, { 
+        method: 'GET'})
+        .then(response => response.json())
+        .then(json => {
+          console.log(json);
+          const transformedData = json.map((item: HistoryData) => ({
+            reportTimestamp: item.reportTimestamp,
+            preOptimizationSize: item.preOptimizationSize,
+            postOptimizationSize: item.postOptimizationSize
+          }));
+          setHistoryData(transformedData);
+      })
+        .catch(error => console.error(error));
+
+      
+    }
+    
+  }
+
   function getReport() {
     return userReport
   }
 
   useEffect(() => {
     handleReportGeneration();
+    handleHistoryRequest();
   }, [user])
 
   useEffect(() => {
@@ -85,7 +109,7 @@ const Dashboard: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 w-full">
               <div className="col-span-7"><PieChart report={userReport}/></div>
               <div className="col-span-7 lg:col-span-3"><ReportList report={userReport}/></div>
-              <div className="col-span-7"><HistoryChart /></div>
+              <div className="col-span-7"><HistoryChart chartData={historyData} /></div>
               <div className="col-span-7 lg:col-span-3 flex justify-center align-center items-center">
                 <ReportButton handleClick={handleReportGeneration} getReport={getReport} size={80} />
               </div>
