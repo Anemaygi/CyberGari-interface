@@ -158,11 +158,20 @@ const CreateModal: React.FC<CreateModalProps> = ({isOpen, OnRequestClose}) => {
 interface AddTagModalProps {
     isOpen: boolean,
     OnRequestClose: React.ReactEventHandler,
+    getFileList: () => string[],
 }
 
-const AddTagModal: React.FC<AddTagModalProps> = ({ isOpen, OnRequestClose }) => {
+interface FileTagUpdateVO{
+    fileId: string,
+    tagNames: Array<string>
+}
+
+const AddTagModal: React.FC<AddTagModalProps> = ({ isOpen, OnRequestClose, getFileList }) => {
     const [user, setUser] = useState<any | null>(null);
-    const [tagList, setTagList] = useState<Array<Tag>>([])
+    const [tagList, setTagList] = useState<Array<Tag>>([]);
+    const [addTagName, setAddTagName] = useState<string>("");
+    const [requestBody, setRequestBody] = useState<Array<FileTagUpdateVO>>([]);
+
     useEffect(() => {
         const fetchData= async ()=>{if (!user && localStorage.getItem('user')) {
         setUser(JSON.parse(localStorage.getItem('user')!));
@@ -188,6 +197,47 @@ const AddTagModal: React.FC<AddTagModalProps> = ({ isOpen, OnRequestClose }) => 
         }
       };
 
+      const [warning, setWarning] = useState<string>("");
+
+      const handleAddButton = (): void => {
+        
+        setWarning("Loading")
+        const fileList = getFileList();
+        let requestList : Array<FileTagUpdateVO> = []
+        for (const file of fileList) {
+            const newItem: FileTagUpdateVO = {
+                fileId: file,
+                tagNames: [addTagName],
+              };
+              requestList.push(newItem);
+        }
+        setRequestBody(requestList)
+        
+        fetch(`http://localhost:8080/tags/files/${user.userId}`, { 
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',  
+                },
+                
+                body: JSON.stringify(requestBody),
+            })
+            .then(response => {
+                console.log(response)
+                if (!response.ok) {
+                    throw new Error(`Status: ${response.status}`);
+                    }
+                setWarning("Sucess")
+
+                } 
+            )
+              .catch(error =>{
+                setWarning("Error")
+                console.error(error)});
+          };
+
+
+        
+
       
 
     return (
@@ -199,9 +249,12 @@ const AddTagModal: React.FC<AddTagModalProps> = ({ isOpen, OnRequestClose }) => 
         >
             <div className="p-10">
                 <h2 className="font-bold text-lg my-3">ADICIONAR TAG</h2>
-                <Select onValueChange={(e)=>console.log(e)}>
+                <h2 className={`${warning == "Loading" ? "text-roxo1" : warning == "Error" ? "text-red-500" : warning == "Sucess" ? "text-green-500" : "hidden"} font-bold text-lg my-3 text-center`}>
+                    {warning == "Loading" ? "Carregando..." : warning == "Error" ? "Não foi possível adicionar os arquivos na tag, tente mais tarde." : warning == "Sucess" ? "Arquivos adicionados na tag com sucesso!" : ""}
+                </h2>
+                <Select onValueChange={(e)=>setAddTagName(e)}>
                     <SelectTrigger className="w-full bg-[#D9D9D9] text-black mt-3 mb-5">
-                        <SelectValue placeholder="Nome da Tag" />
+                        <SelectValue placeholder={"Nome da Tag" }/>
                     </SelectTrigger>
                     <SelectContent className="bg-[#D9D9D9] text-black" >
                         {tagList.map((tag) => (
@@ -213,8 +266,9 @@ const AddTagModal: React.FC<AddTagModalProps> = ({ isOpen, OnRequestClose }) => 
                 </Select>
 
                 <div className="grid grid-cols-1 lg:grid-cols-9 mt-10 text-center">
-                    <div className="col-span-1 lg:col-start-3 mr-5"><Button title={"Adicionar"} handleClick={() => console.log("Adicionar")}/></div>
-                    <button className="col-span-1 lg:col-start-6 lg:pl-7" onClick={OnRequestClose}>Fechar</button>
+                    <div className="col-span-1 lg:col-start-3 mr-5"><Button title={"Adicionar"} handleClick={handleAddButton}/></div>
+                    <button className="col-span-1 lg:col-start-6 lg:pl-7" onClick={(e) => {OnRequestClose(e)
+                                                                                            setWarning("")}}>Fechar</button>
                 </div>
             </div>
 
@@ -341,7 +395,7 @@ const LabelsMenu: React.FC<LabelsMenuProps> = ({getFileList, setSearch}) => {
 
 
     return ( 
-        <div className="grid grid-cols-1 lg:grid-cols-6 gap-3 mr-5">
+        <div className="grid grid-cols-1 lg:grid-cols-7 gap-3 mr-5">
             <div className="w-full flex justify-end font-inter my-3 relative col-span-1 lg:col-span-3">
                 <Input className="text-white bg-secbackground border-0 rounded-xl p-5" placeholder="Pesquisar" onChange={(e) => {
                     
@@ -355,11 +409,17 @@ const LabelsMenu: React.FC<LabelsMenuProps> = ({getFileList, setSearch}) => {
             <div className="w-full font-inter col-span-1">
                 <IconButton icon={<FiPlus size={25}/>} title="" handleClick={abrirAddModal} />
             </div>
-            <AddTagModal isOpen={addIsOpen} OnRequestClose={fecharAddModal} />
+            <AddTagModal isOpen={addIsOpen} OnRequestClose={fecharAddModal} getFileList={getFileList} />
+            <div className="w-full font-inter col-span-1">
+                <IconButton icon={<FiMinus size={25}/>} title="" handleClick={abrirRemoveModal} />
+            </div>
+            <RemoveTagModal isOpen={removeIsOpen} OnRequestClose={fecharRemoveModal} listSize={getFileList().length}/>
             <div className="w-full font-inter col-span-1">
                 <IconButton icon={<FiTrash size={25}/>} title="" handleClick={abrirRemoveModal} />
             </div>
             <RemoveTagModal isOpen={removeIsOpen} OnRequestClose={fecharRemoveModal} listSize={getFileList().length}/>
+            
+
             <FailModal isOpen={failIsOpen} OnRequestClose={fecharFailModal}/>
         </div>
       );
