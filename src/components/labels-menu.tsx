@@ -470,19 +470,19 @@ const LabelsMenu: React.FC<LabelsMenuProps> = ({getFileList, setSearch}) => {
                     setSearch(e.target.value)}}/>
                 <FiSearch size={25} color="#FFFFFF" className="mr-7 mt-2 absolute"/>
             </div>
-            <div className="w-full font-inter col-span-1">
+            <div className="w-full font-inter col-span-1" title="Criar nova tag">
                 <IconButton icon={<FiTag size={25}/>} title="" handleClick={abrirModal} />
             </div>
             <CreateModal isOpen={modalIsOpen} OnRequestClose={fecharModal} />
-            <div className="w-full font-inter col-span-1">
+            <div className="w-full font-inter col-span-1" title="Adicionar arquivos à tag">
                 <IconButton icon={<FiPlus size={25}/>} title="" handleClick={abrirAddModal} />
             </div>
             <AddTagModal isOpen={addIsOpen} OnRequestClose={fecharAddModal} getFileList={getFileList} />
-            <div className="w-full font-inter col-span-1">
+            <div className="w-full font-inter col-span-1" title="Remover tags de arquivos">
                 <IconButton icon={<FiMinus size={25}/>} title="" handleClick={abrirRemoveModal} />
             </div>
             <RemoveTagModal isOpen={removeIsOpen} OnRequestClose={fecharRemoveModal} listSize={getFileList().length} getFileList={getFileList}/>
-            <div className="w-full font-inter col-span-1">
+            <div className="w-full font-inter col-span-1" title="Deletar tags">
                 <IconButton icon={<FiTrash size={25}/>} title="" handleClick={abrirRemoveModal} />
             </div>
             {/* <RemoveTagModal isOpen={removeIsOpen} OnRequestClose={fecharRemoveModal} listSize={getFileList().length}/> */}
