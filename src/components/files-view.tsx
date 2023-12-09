@@ -38,7 +38,7 @@ const FileType: React.FC<ManipuleItem> = ({file, handleClick, getFileItem}) => {
 
   return (
   
-    <div title={name} className={`fileName overflow-hidden m-1 truncate cursor-pointer ${backgroundColor} col-span-1 text-center my-5 hover:bg-[#D9D9D9] hover:bg-opacity-5 hover:border-1 hover:border-white p-1 rounded-lg`} onClick={handleFileClick}>
+    <div title={name} className={`fileName overflow-hidden h-fit m-1 truncate cursor-pointer ${backgroundColor} col-span-1 text-center my-5 hover:bg-[#D9D9D9] hover:bg-opacity-5 hover:border-1 hover:border-white p-1 rounded-lg`} onClick={handleFileClick}>
       {
         file.type == "diretory" ? 
         <div className="text-roxo1 text-7xl"><FontAwesomeIcon icon={faFolder}/></div> : 
@@ -183,13 +183,13 @@ return (
 
 
         {listSubfolder.map((file,idx) => (
-            <FileType key={idx} file={file} handleClick={handleFolderClick} getFileItem={getFileList}/>
+            <div className="h-full"><FileType key={idx} file={file} handleClick={handleFolderClick} getFileItem={getFileList}/></div>
           ))}
           {files
           .filter(file => isFileinFolder(file.filePath, currentFolder))
           .filter(file => search === "" || file.name.includes(search))
           .map((file,idx) => (
-            <FileType key={idx} file={file} handleClick={handleFileClick} getFileItem={getFileList}/>
+            <div className="h-full"><FileType key={idx} file={file} handleClick={handleFileClick} getFileItem={getFileList}/></div>
           ))}
           
         </div>
