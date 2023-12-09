@@ -5,10 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Tags: React.FC = () => {
-  const [files, setFiles] = useState([]);
   var fileList : string[] = [];
-  
-  
 
   function handleFileClick(name: string) {
     if(fileList.includes(name)) {

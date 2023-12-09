@@ -2,10 +2,12 @@ import { FiMinus, FiPlus, FiSearch, FiTag, FiTrash } from "react-icons/fi";
 import { Input } from "./ui/input";
 import IconButton from "./icon-button";
 import Modal from 'react-modal';
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "./button";
 import { Slider } from "./ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+
+
 
 
 Modal.setAppElement('#root');
@@ -13,10 +15,30 @@ Modal.setAppElement('#root');
 interface CreateModalProps {
     isOpen: boolean;
     OnRequestClose: React.ReactEventHandler
-    selectFunction: (newColor: string) => void
 }
 
-const CreateModal: React.FC<CreateModalProps> = ({isOpen, OnRequestClose, selectFunction}) => {
+interface Tag{
+    name: string,
+    tagPriority: number,
+    tagColor: string,
+}
+
+// const [user, setUser] = useState<any | null>(null);
+
+// useEffect(() => {
+//   const storedUser = localStorage.getItem('user');
+
+//   if (!user && storedUser) {
+//     setUser(JSON.parse(storedUser));
+//   }
+// }, []); // Empty dependency array to run the effect only once, similar to componentDidMount
+
+// console.log(user);
+
+const CreateModal: React.FC<CreateModalProps> = ({isOpen, OnRequestClose}) => {
+    const [tag, setTag] = useState<Tag>({name: "", tagPriority: 3, tagColor: "#D9D9D9" })
+    const [warning, setWarning] = useState<string>("");
+    
     const bg = {
         overlay: {
           background: 'rgba(0, 0, 0, 0.5)'
@@ -24,7 +46,27 @@ const CreateModal: React.FC<CreateModalProps> = ({isOpen, OnRequestClose, select
       };
 
     const colors = ["#D9D9D9", "#07C8C5", "#0E557C", "#0077C2", "#002FCB", "#ED0EE4", "#835BC5"]
+    
+    const handleCreate = () => {
+        if(!tag.name){setWarning("Não é possível criar tag com nome vazio")
+        return }
+        const storedUserString = localStorage.getItem('user');
+        if ( storedUserString ){
+            const userId = JSON.parse(storedUserString).userId
+                      
+            console.log( userId, tag)
+        }
+        
+        
+    }
 
+    const selectFunction = (newColor: string): void => {
+        setTag((prev)=>({
+            ...prev,
+            tagColor : newColor
+        }))
+      };
+      
     return (
         <Modal
                 isOpen={isOpen}
@@ -38,14 +80,20 @@ const CreateModal: React.FC<CreateModalProps> = ({isOpen, OnRequestClose, select
                         a chance de ele ser selecionado para ser comprimido ou excluído.</p>
                     
                     <label className="font-bold">Nome</label>
-                    <Input type="text" placeholder="Nome da Tag" className="w-full bg-[#D9D9D9] text-black mt-3 mb-5" />
-
+                    <p className="text-red-500">{warning}</p>
+                    <Input 
+                        onChange={(e) => {
+                            setWarning("")
+                            setTag((prev) => ({ ...prev, name: e.target.value }));
+                        }} 
+                        type="text" placeholder="Nome da Tag" className="w-full bg-[#D9D9D9] text-black mt-3 mb-5" />
+                    
                     <label className="font-bold">Cor da Tag</label><br/>
                     <div className="w-full grid grid-cols-2 lg:grid-cols-7 items-center">
                         {
                             
                             colors.map(scolor => (
-                                <button style={{ backgroundColor: scolor }} className={`mx-auto mt-3 mb-8 rounded-full h-[30px] w-[30px] col-span-1 focus:border-2 focus:border-white focus:shadow-xl`} onClick={() => selectFunction}/>
+                                <button style={{ backgroundColor: scolor }} className={`${tag.tagColor == scolor ? 'border-white shadow-xl border-2' : ''} mx-auto mt-3 mb-8 rounded-full h-[30px] w-[30px] col-span-1`} onClick={() => selectFunction(scolor)}/>
                             ))
                         }
                     </div>
@@ -53,14 +101,21 @@ const CreateModal: React.FC<CreateModalProps> = ({isOpen, OnRequestClose, select
                     <label className="font-bold">Importância do Arquivo</label>
                     <div className="w-full grid grid-cols-12 mt-5 mb-10 gap-1">
                         <FiMinus size={20} color="white" className="hidden md:grid col-span-1 mx-auto"/>
-                        <Slider defaultValue={[3]} max={10} step={1} className="col-span-12 md:col-span-10" />
+                        <Slider defaultValue={[3]} max={10} step={1} className="col-span-12 md:col-span-10" 
+                            onValueChange={
+                                (e)=>{
+                                    setTag((prev)=>({
+                                        ...prev,
+                                        tagPriority : e[0]
+                                    }))
+                                }}/>
                         <FiPlus size={20} color="white" className="hidden md:grid col-span-1 mx-auto" />
                     </div>
                     
 
 
                     <div className="grid grid-cols-1 lg:grid-cols-9 mt-10">
-                        <div className="col-span-1 lg:col-start-3"><Button title={"Criar"} handleClick={() => console.log("Criar")}/></div>
+                        <div className="col-span-1 lg:col-start-3"><Button title={"Criar"} handleClick={handleCreate}/></div>
                         <button className="col-span-1 lg:col-start-6 lg:pl-7" onClick={OnRequestClose}>Cancelar</button>
                     </div>
                 </div>
@@ -189,7 +244,7 @@ const LabelsMenu: React.FC<LabelsMenuProps> = ({getFileList}) => {
     const [removeIsOpen, setRemoveIsOpen] = React.useState(false);
     const [failIsOpen, setFailIsOpen] = React.useState(false);
     
-    var color = "";
+    const [color, setColor] = useState<string>();
 
     function abrirModal() {
         setIsOpen(true);
@@ -227,9 +282,7 @@ const LabelsMenu: React.FC<LabelsMenuProps> = ({getFileList}) => {
         setFailIsOpen(false);
     }
 
-    function selectColor(newColor : string) {
-        color = newColor;
-    }
+    
 
 
     return ( 
@@ -241,7 +294,7 @@ const LabelsMenu: React.FC<LabelsMenuProps> = ({getFileList}) => {
             <div className="w-full font-inter col-span-1">
                 <IconButton icon={<FiTag size={25}/>} title="" handleClick={abrirModal} />
             </div>
-            <CreateModal isOpen={modalIsOpen} OnRequestClose={fecharModal} selectFunction={selectColor}/>
+            <CreateModal isOpen={modalIsOpen} OnRequestClose={fecharModal} />
             <div className="w-full font-inter col-span-1">
                 <IconButton icon={<FiPlus size={25}/>} title="" handleClick={abrirAddModal} />
             </div>
