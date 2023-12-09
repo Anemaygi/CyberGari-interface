@@ -23,17 +23,6 @@ interface Tag{
     tagColor: string,
 }
 
-// const [user, setUser] = useState<any | null>(null);
-
-// useEffect(() => {
-//   const storedUser = localStorage.getItem('user');
-
-//   if (!user && storedUser) {
-//     setUser(JSON.parse(storedUser));
-//   }
-// }, []); // Empty dependency array to run the effect only once, similar to componentDidMount
-
-// console.log(user);
 
 const CreateModal: React.FC<CreateModalProps> = ({isOpen, OnRequestClose}) => {
     const [tag, setTag] = useState<Tag>({name: "", tagPriority: 3, tagColor: "#D9D9D9" })
@@ -47,18 +36,52 @@ const CreateModal: React.FC<CreateModalProps> = ({isOpen, OnRequestClose}) => {
 
     const colors = ["#D9D9D9", "#07C8C5", "#0E557C", "#0077C2", "#002FCB", "#ED0EE4", "#835BC5"]
     
-    const handleCreate = () => {
-        if(!tag.name){setWarning("Não é possível criar tag com nome vazio")
-        return }
-        const storedUserString = localStorage.getItem('user');
-        if ( storedUserString ){
-            const userId = JSON.parse(storedUserString).userId
-                      
-            console.log( userId, tag)
+    const [user, setUser] = useState<any | null>(null);
+    useEffect(() => {
+        if (!user && localStorage.getItem('user')) {
+        setUser(JSON.parse(localStorage.getItem('user')!));
         }
+    }, [])
+
+    const handleCreate = () => {
         
         
-    }
+        if(!tag.name){setWarning("NoName")
+        return }
+        setWarning("Loading")            
+        if ( user ){
+            fetch(`http://localhost:8080/tags/${user.userId}`, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',  
+                },
+                
+                body: JSON.stringify(tag),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Status: ${response.status}`);
+                    }
+                    setWarning("Sucess")
+                    if (response.headers.get('content-length') !== '0') {
+                        return response.json();
+                      } else {
+                        return null; 
+                      }
+
+                } 
+            )
+            .then((data) => {
+                if (data) {
+                  console.log(data);
+                }
+              })
+              .catch(error =>{
+                setWarning("Error")
+                console.error(error)});
+          }
+        }      
+     
 
     const selectFunction = (newColor: string): void => {
         setTag((prev)=>({
@@ -66,6 +89,8 @@ const CreateModal: React.FC<CreateModalProps> = ({isOpen, OnRequestClose}) => {
             tagColor : newColor
         }))
       };
+    
+
       
     return (
         <Modal
@@ -75,12 +100,16 @@ const CreateModal: React.FC<CreateModalProps> = ({isOpen, OnRequestClose}) => {
                 style={bg}
             >
                 <div className="p-10">
+                    
                     <h2 className="font-bold text-lg my-3">CRIAR NOVA TAG</h2>
                     <p className="mb-5">Aqui você pode criar uma etiqueta personalizada! Quanto maior a importância da tag, menor 
                         a chance de ele ser selecionado para ser comprimido ou excluído.</p>
-                    
+
+
+                    <h2 className={`${warning == "Loading" ? "text-roxo1" : warning == "Error" ? "text-red-500" : warning == "Sucess" ? "text-green-500" : "hidden" } font-bold text-lg my-3 text-center`}>{warning == "Loading" ? "Carregando..." : warning == "Error" ? "Não foi possível criar a tag, tente novamente mais tarde" : warning == "Sucess" ? "Tag criada com sucesso!" : "" }</h2>    
+
                     <label className="font-bold">Nome</label>
-                    <p className="text-red-500">{warning}</p>
+                    <p className={`${warning == "NoName" ? "text-red-500" : "hidden"}`}>Não é possível criar tags sem um nome</p>
                     <Input 
                         onChange={(e) => {
                             setWarning("")
@@ -116,7 +145,9 @@ const CreateModal: React.FC<CreateModalProps> = ({isOpen, OnRequestClose}) => {
 
                     <div className="grid grid-cols-1 lg:grid-cols-9 mt-10">
                         <div className="col-span-1 lg:col-start-3"><Button title={"Criar"} handleClick={handleCreate}/></div>
-                        <button className="col-span-1 lg:col-start-6 lg:pl-7" onClick={OnRequestClose}>Cancelar</button>
+                        <button className="col-span-1 lg:col-start-6 lg:pl-7" onClick={(e)=>{OnRequestClose(e)
+                                                                                            setWarning("")}}>
+                        Cancelar</button>
                     </div>
                 </div>
             </Modal>
