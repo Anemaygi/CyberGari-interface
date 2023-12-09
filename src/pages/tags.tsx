@@ -8,8 +8,7 @@ import { File } from '@/components/files-view'
 
 
 const Tags: React.FC = () => {
-  var fileList : string[] = [];
-  var filePaths : string[] = [];
+
   var fileSelect : File[] = [];
   
 
