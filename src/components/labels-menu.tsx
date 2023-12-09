@@ -234,17 +234,16 @@ const RemoveTagModal: React.FC<RemoveTagModalProps> = ({ isOpen, OnRequestClose,
 }
 
 interface LabelsMenuProps {
-    getFileList: () => string[]
+    getFileList: () => string[],
+    setSearch: React.Dispatch<React.SetStateAction<string>>,
 }
 
-
-const LabelsMenu: React.FC<LabelsMenuProps> = ({getFileList}) => {
+const LabelsMenu: React.FC<LabelsMenuProps> = ({getFileList, setSearch}) => {
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [addIsOpen, setAddIsOpen] = React.useState(false);
     const [removeIsOpen, setRemoveIsOpen] = React.useState(false);
     const [failIsOpen, setFailIsOpen] = React.useState(false);
     
-    const [color, setColor] = useState<string>();
 
     function abrirModal() {
         setIsOpen(true);
@@ -288,7 +287,9 @@ const LabelsMenu: React.FC<LabelsMenuProps> = ({getFileList}) => {
     return ( 
         <div className="grid grid-cols-1 lg:grid-cols-6 gap-3 mr-5">
             <div className="w-full flex justify-end font-inter my-3 relative col-span-1 lg:col-span-3">
-                <Input className="text-white bg-secbackground border-0 rounded-xl p-5" placeholder="Pesquisar"/>
+                <Input className="text-white bg-secbackground border-0 rounded-xl p-5" placeholder="Pesquisar" onChange={(e) => {
+                    
+                    setSearch(e.target.value)}}/>
                 <FiSearch size={25} color="#FFFFFF" className="mr-7 mt-2 absolute"/>
             </div>
             <div className="w-full font-inter col-span-1">

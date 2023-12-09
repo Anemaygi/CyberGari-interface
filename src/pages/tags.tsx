@@ -22,6 +22,7 @@ const Tags: React.FC = () => {
   }
 
   const [user, setUser] = useState<any | null>(null);
+  const [search, setSearch] = useState<string>("")
   const navigate = useNavigate();
   useEffect(() => {
     if (!user && localStorage.getItem('user')) {
@@ -42,8 +43,8 @@ const Tags: React.FC = () => {
           <div className='flex shadow-lg rounded-lg w-screen h-full p-2 bg-background'>
             <SideBar />
             <div className="w-full grid-cols-6">
-            <LabelsMenu getFileList={getFileList} />
-            <FilesView handleFileClick={handleFileClick} getFileList={getFileList} />
+            <LabelsMenu getFileList={getFileList} setSearch={setSearch}/>
+            <FilesView handleFileClick={handleFileClick} getFileList={getFileList}  search={search} />
             </div>
   
           </div>

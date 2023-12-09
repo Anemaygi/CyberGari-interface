@@ -42,6 +42,7 @@ const FileType: React.FC<ManipuleItem> = ({name, type, handleClick, getFileItem}
 interface FilesProps {
   handleFileClick: (name:string) => void;
   getFileList: () => string[]
+  search: string,
 }
 
 interface FileItem {
@@ -53,7 +54,7 @@ interface FileItem {
 }
 
 
-const FilesView: React.FC<FilesProps> = ({handleFileClick, getFileList}) => {
+const FilesView: React.FC<FilesProps> = ({handleFileClick, getFileList, search}) => {
   const [files, setFiles] = useState<FileItem[]>([]);
   useEffect(() => {
     fetch(`http://localhost:8080/files/`, { 
@@ -68,7 +69,9 @@ const FilesView: React.FC<FilesProps> = ({handleFileClick, getFileList}) => {
 return (
     <div className="lg:h-[90%] mr-5 p-2 overflow-y-auto rounded-3xl flex flex-col bg-[#121625] font-inter text-white shadow-md">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 overflow-y-auto">
-          {files.map(file => (
+          {files
+          .filter(file => search === "" || file.name.includes(search))
+          .map(file => (
             <FileType name={file.name} type={file.type} handleClick={handleFileClick} getFileItem={getFileList}/>
           ))}
         </div>
