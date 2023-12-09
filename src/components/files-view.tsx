@@ -26,7 +26,7 @@ const FileType: React.FC<ManipuleItem> = ({name, type, handleClick, getFileItem}
 
   return (
   
-    <div className={`fileName cursor-pointer ${backgroundColor} col-span-1 text-center my-5 hover:bg-[#D9D9D9] hover:bg-opacity-5 hover:border-1 hover:border-white p-1 rounded-lg`} onClick={handleFileClick}>
+    <div title={name} className={`fileName overflow-hidden m-1 truncate cursor-pointer ${backgroundColor} col-span-1 text-center my-5 hover:bg-[#D9D9D9] hover:bg-opacity-5 hover:border-1 hover:border-white p-1 rounded-lg`} onClick={handleFileClick}>
       {
         type == "diretory" ? 
         <div className="text-roxo1 text-7xl"><FontAwesomeIcon icon={faFolder}/></div> : 
@@ -76,7 +76,7 @@ const FilesView: React.FC<FilesProps> = ({handleFileClick, getFileList}) => {
       },
       {
         "type": "diretory",
-        "name": "Lorem Ipsum 5",
+        "name": "LoremIpsum5aaaaaaaaaaaaaa",
         "tags": [
           "Tag 1"
         ]
