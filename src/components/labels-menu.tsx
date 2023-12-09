@@ -156,16 +156,39 @@ const CreateModal: React.FC<CreateModalProps> = ({isOpen, OnRequestClose}) => {
 };
 
 interface AddTagModalProps {
-    isOpen: boolean;
-    OnRequestClose: React.ReactEventHandler
+    isOpen: boolean,
+    OnRequestClose: React.ReactEventHandler,
 }
 
 const AddTagModal: React.FC<AddTagModalProps> = ({ isOpen, OnRequestClose }) => {
+    const [user, setUser] = useState<any | null>(null);
+    const [tagList, setTagList] = useState<Array<Tag>>([])
+    useEffect(() => {
+        const fetchData= async ()=>{if (!user && localStorage.getItem('user')) {
+        setUser(JSON.parse(localStorage.getItem('user')!));
+        }
+
+        if(user) {
+            fetch(`http://localhost:8080/tags/${user.userId}`, { 
+              method: 'GET'})
+              .then(response => response.json())
+              .then(json => setTagList(json))
+              .catch(error => console.error(error));
+          }}
+
+          fetchData()
+
+    }, [user])
+
+    
+    
     const bg = {
         overlay: {
           background: 'rgba(0, 0, 0, 0.5)'
         }
       };
+
+      
 
     return (
         <Modal 
@@ -176,19 +199,21 @@ const AddTagModal: React.FC<AddTagModalProps> = ({ isOpen, OnRequestClose }) => 
         >
             <div className="p-10">
                 <h2 className="font-bold text-lg my-3">ADICIONAR TAG</h2>
-                <Select>
+                <Select onValueChange={(e)=>console.log(e)}>
                     <SelectTrigger className="w-full bg-[#D9D9D9] text-black mt-3 mb-5">
                         <SelectValue placeholder="Nome da Tag" />
                     </SelectTrigger>
-                    <SelectContent className="bg-[#D9D9D9] text-black">
-                        <SelectItem value="1">Nome da Tag 1</SelectItem>
-                        <SelectItem value="2">Nome da Tag 2</SelectItem>
-                        <SelectItem value="3">Nome da tag 3</SelectItem>
+                    <SelectContent className="bg-[#D9D9D9] text-black" >
+                        {tagList.map((tag) => (
+                            <SelectItem key={tag.name} value={tag.name}>
+                            {tag.name}
+                            </SelectItem>
+                        ))}
                     </SelectContent>
                 </Select>
 
                 <div className="grid grid-cols-1 lg:grid-cols-9 mt-10 text-center">
-                    <div className="col-span-1 lg:col-start-3 mr-5"><Button title={"Criar"} handleClick={() => console.log("Adicionar")}/></div>
+                    <div className="col-span-1 lg:col-start-3 mr-5"><Button title={"Adicionar"} handleClick={() => console.log("Adicionar")}/></div>
                     <button className="col-span-1 lg:col-start-6 lg:pl-7" onClick={OnRequestClose}>Fechar</button>
                 </div>
             </div>
