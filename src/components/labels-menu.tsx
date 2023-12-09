@@ -230,7 +230,6 @@ const AddTagModal: React.FC<AddTagModalProps> = ({ isOpen, OnRequestClose, getFi
             body: JSON.stringify(requestBody),
         })
             .then(response => {
-                console.log(response)
                 if (!response.ok) {
                     throw new Error(`Status: ${response.status}`);
                 }
