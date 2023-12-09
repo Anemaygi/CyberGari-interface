@@ -164,15 +164,15 @@ const ReportList: React.FC<ReportsListProps> = ({report}) => {
           <div className="overflow-y-auto grow w-full h-56 m-2">
             
             { type && filesToDelete ? 
-              filesToDelete.map(file => (
-                <div className="m-2">
+              filesToDelete.map((file,idx) => (
+                <div key={idx} className="m-2">
                   <FileItem file={file} action={<DeleteButton handleDelete={handleDelete} id={file.id}/>}/>
                   <div className="h-px bg-white/10 my-2"></div>
                 </div>
               ))
               :
-              report.filesToCompress.map(file => (
-                <div className="m-2">
+              report.filesToCompress.map((file,idx )=> (
+                <div key={idx} className="m-2">
                   <FileItem file={file} action={<UncompressButton handleDelete={(irra) => console.log(irra)} id={file.id}/>} />
                   <div className="h-px bg-white/10 my-2"></div>
                 </div>
