@@ -1,22 +1,35 @@
 import { faFile, faFolder } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { FiCornerLeftUp, FiHome } from "react-icons/fi";
+
+export interface File{
+  filePath:string,
+  id: string,
+  modifiedTime: string,
+  name: string,
+  type: string,
+}
 
 interface ManipuleItem {
-  name: string;
-  type: string;
-  handleClick: (name:string) => void
-  getFileItem: () => string[]
+  file: File,
+  handleClick: (fileItem:File) => void,
+  getFileItem: () => File[]
 }
 
 
-const FileType: React.FC<ManipuleItem> = ({name, type, handleClick, getFileItem}) => {
+const FileType: React.FC<ManipuleItem> = ({file, handleClick, getFileItem}) => {
   
+  const name = file.name;
+  const pathname = file.filePath;
+  const id = file.id;
+
   const [backgroundColor, setColor] = useState("")
 
   const handleFileClick = () => {
-    handleClick(name)
-    if(getFileItem().includes(name)){
+    
+    handleClick(file)
+    if(getFileItem().some(item => item.id === file.id)){
       setColor("bg-white bg-opacity-5")
     } else {
       setColor("")
@@ -26,9 +39,9 @@ const FileType: React.FC<ManipuleItem> = ({name, type, handleClick, getFileItem}
 
   return (
   
-    <div className={`fileName cursor-pointer ${backgroundColor} col-span-1 text-center my-5 hover:bg-[#D9D9D9] hover:bg-opacity-5 hover:border-1 hover:border-white p-1 rounded-lg`} onClick={handleFileClick}>
+    <div title={name} className={`fileName overflow-hidden h-fit m-1 truncate cursor-pointer ${backgroundColor} col-span-1 text-center my-5 hover:bg-[#D9D9D9] hover:bg-opacity-5 hover:border-1 hover:border-white p-1 rounded-lg`} onClick={handleFileClick}>
       {
-        type == "diretory" ? 
+        file.type == "diretory" ? 
         <div className="text-roxo1 text-7xl"><FontAwesomeIcon icon={faFolder}/></div> : 
         <div className="text-roxo1 text-7xl"><FontAwesomeIcon icon={faFile} /></div>
       }
@@ -39,85 +52,147 @@ const FileType: React.FC<ManipuleItem> = ({name, type, handleClick, getFileItem}
 }
 
 interface FilesProps {
-  handleFileClick: (name:string) => void;
-  getFileList: () => string[]
+  handleFileClick: (fileItem:File) => void;
+  getFileList: () => File[]
+  search: string,
 }
 
-const FilesView: React.FC<FilesProps> = ({handleFileClick, getFileList}) => {
-  const files = {
-    "driveFiles": [
-      {
-        "type": "diretory",
-        "name": "Lorem Ipsum 1",
-        "tags": [
-          "Tag 1"
-        ]
-      },
-      {
-        "type": "diretory",
-        "name": "Lorem Ipsum 2",
-        "tags": [
-          "Tag 1"
-        ]
-      },
-      {
-        "type": "diretory",
-        "name": "Lorem Ipsum 3",
-        "tags": [
-          "Tag 1"
-        ]
-      },
-      {
-        "type": "diretory",
-        "name": "Lorem Ipsum 4",
-        "tags": [
-          "Tag 1"
-        ]
-      },
-      {
-        "type": "diretory",
-        "name": "Lorem Ipsum 5",
-        "tags": [
-          "Tag 1"
-        ]
-      },
-      {
-        "type": "file",
-        "name": "Lorem Ipsum 6",
-        "tags": [
-          "Tag 1"
-        ]
-      },
-      {
-        "type": "file",
-        "name": "Lorem Ipsum 7",
-        "tags": [
-          "Tag 1"
-        ]
-      },
-      {
-        "type": "file",
-        "name": "Lorem Ipsum 8",
-        "tags": [
-          "Tag 1"
-        ]
-      },
-      {
-        "type": "file",
-        "name": "Lorem Ipsum 9",
-        "tags": [
-          "Tag 1"
-        ]
-      }
-    ]
-  };
+interface FileItem {
+  filePath:string,
+  id:string,
+  modifiedTime:string,
+  name:string,
+  type:string,
+}
 
-  return (
+
+
+const FilesView: React.FC<FilesProps> = ({handleFileClick, getFileList, search}) => {
+  const [files, setFiles] = useState<FileItem[]>([]);
+  const [rootFolder, setRootFolder] = useState<string>("");
+  const [currentFolder, setCurrentFolder] = useState<string>("");
+  const [listSubfolder, setListSubfolder] = useState<Array<File>>([]);
+
+  
+  function findCommonRootPath(paths: Array<string>) {
+    const splitPaths = paths.map((path: string) => path.split('/'));
+    const minLength = Math.min(...splitPaths.map((path: any) => path.length));
+  
+    let commonRootPath = '';
+    for (let i = 0; i < minLength; i++) {
+      const parts = new Set(splitPaths.map((path: any) => path[i]));
+      if (parts.size === 1) {
+        commonRootPath += parts.values().next().value + '/';
+      } else {
+        break;
+      }
+    }
+  
+    return commonRootPath.slice(0, -1);
+  }
+
+  
+function isFileinFolder(fileName:string, current:string) {
+  if(fileName.startsWith(current)){ 
+    if(fileName.split(current).length >1 && fileName.split(current)[1].includes('/')) return false
+    return true
+  }
+  return false
+}
+
+function getSubfolders(current: string): File[] {
+  const subfolders: Array<File> = [];
+
+  files.forEach(file => {
+    if (file.filePath.startsWith(current)) {
+      const subfolderPath = file.filePath.split(current)[1];
+
+      if (subfolderPath.includes('/')) {
+        const subfolderName = subfolderPath.split('/')[0];
+        if(!subfolders.find(subfolder => subfolder.name === subfolderName)){
+        const folderToAdd : File = {
+              filePath:subfolderName,
+              id: "",
+              modifiedTime: "",
+              name: subfolderName,
+              type: "diretory",
+            }
+        
+        subfolders.push(folderToAdd);}
+      }
+    }
+  });
+
+  return subfolders;
+}
+
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/files/`, { 
+      method: 'GET'})
+      .then(response => response.json())
+      .then(json => {
+        const filePaths = json.map((file: File) => file.filePath);
+        // const commonRootPath = findCommonRootPath(filePaths);
+        setRootFolder(findCommonRootPath(filePaths)+"/")
+        setCurrentFolder(findCommonRootPath(filePaths)+"/")
+        setFiles(json)
+      })
+      .catch(error => console.error(error));
+},[])
+  
+useEffect(() => {
+  setListSubfolder(getSubfolders(currentFolder));
+}, [currentFolder, files]);
+
+
+
+
+ 
+function handleFolderClick(fileName:File) {
+  const fileNameRight = fileName.filePath+'/'
+  setCurrentFolder(prevCurrentFolder => prevCurrentFolder + fileNameRight);
+  setListSubfolder(getSubfolders(currentFolder))
+}
+
+function handleBackClick() {
+  const lastSlashIndex = currentFolder.lastIndexOf('/');
+  const secondToLastSlashIndex = currentFolder.lastIndexOf('/', lastSlashIndex - 1);
+  setCurrentFolder(prev => prev.substring(0, secondToLastSlashIndex + 1));
+}
+
+return (
     <div className="lg:h-[90%] mr-5 p-2 overflow-y-auto rounded-3xl flex flex-col bg-[#121625] font-inter text-white shadow-md">
+       <div className="w-full flex flex-wrap items-center p-4 text-roxo1/50"><div className="flex flex-grow">{currentFolder}</div><div onClick={()=>setCurrentFolder(rootFolder)} className="w-fit h-fit cursor-pointer"><FiHome size={25} title="Volte para a pasta raíz" /></div></div> 
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 overflow-y-auto">
-          {files.driveFiles.map(file => (
-            <FileType name={file.name} type={file.type} handleClick={handleFileClick} getFileItem={getFileList}/>
+          
+
+        { currentFolder != rootFolder ?
+          
+          <div onClick={handleBackClick} title={"Voltar à pasta anterior"} className={`fileName overflow-hidden m-1 truncate cursor-pointer col-span-1 text-center my-5 hover:bg-[#D9D9D9] hover:bg-opacity-5 hover:border-1 hover:border-white p-1 rounded-lg`}>
+        <div className="text-roxo1 text-7xl w-full flex justify-center relative">
+          <div className="w-fit h-fit relative"><FontAwesomeIcon icon={faFolder}/>
+          <div className="text-white/80 absolute w-full h-full top-1/2 left-1"><FiCornerLeftUp size={20}/></div>
+          </div>
+        </div>
+          <label className="">{"Voltar"}</label>
+       </div>
+        :
+        <></> 
+      }
+
+
+
+        {listSubfolder.map((file,idx) => (
+            <div className="h-full"><FileType key={idx} file={file} handleClick={handleFolderClick} getFileItem={getFileList}/></div>
           ))}
+          {files
+          .filter(file => isFileinFolder(file.filePath, currentFolder))
+          .filter(file => search === "" || file.name.includes(search))
+          .map((file,idx) => (
+            <div className="h-full"><FileType key={idx} file={file} handleClick={handleFileClick} getFileItem={getFileList}/></div>
+          ))}
+          
         </div>
     </div> 
     );
