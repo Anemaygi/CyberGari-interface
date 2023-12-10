@@ -53,8 +53,8 @@ const PieChart: React.FC<PieChartProps> = ({report}) => {
         <h2 className="font-bold text-xl mb-4">Resultados da Análise</h2>
         <Subtitle
           totalUsed={data.datasets[0].data[0]}
-          totalCompressed={data.datasets[0].data[1]}
-          totalDeleted={data.datasets[0].data[2]}
+          totalCompressed={data.datasets[0].data[2]}
+          totalDeleted={data.datasets[0].data[1]}
         />
         <AdditionalInformation moneySaved={20.01} storageReleased={`${storageReleased.toPrecision(1)}`} />
       </div></div>

@@ -166,9 +166,11 @@ type ReportsListProps = {
 const ReportList: React.FC<ReportsListProps> = ({report}) => {
   const [type, setType] = useState(true);
   const [filesToDelete, setFilesToDelete] = useState([{ id: "", name: "", size: 0, modifiedTime: "" }]);
+  const [compressedFiles, setCompressedFiles] = useState([{ id: "", name: "", size: 0, modifiedTime: "" }]);
 
   useEffect(() => {
     setFilesToDelete(report.filesToDelete);
+    setCompressedFiles(report.filesToCompress);
   }, [report])
 
 
@@ -219,9 +221,11 @@ const ReportList: React.FC<ReportsListProps> = ({report}) => {
                 </div>
               ))
               :
-              report.filesToCompress.map((file,idx )=> (
-                <div key={idx} className="m-2">
-                  <FileItem file={file} action={<UncompressButton id={file.id}/>} />
+
+              compressedFiles.map(file => (
+                <div className="m-2">
+                  <FileItem file={file} action={<UncompressButton handleDelete={(irra) => console.log(irra)} id={file.id}/>} />
+
                   <div className="h-px bg-white/10 my-2"></div>
                 </div>
               ))

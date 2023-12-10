@@ -3,27 +3,33 @@ import LabelsMenu from "@/components/labels-menu";
 import SideBar from "@/components/sidebar";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { File } from '@/components/files-view'
+
+
 
 const Tags: React.FC = () => {
-  
-  var fileList : string[] = [];
+
+  var fileSelect : File[] = [];
   
 
-  function handleFileClick(name: string) {
-    if(fileList.includes(name)) {
-      fileList = fileList.filter(file => {
-        return file !== name
-      })
-    } else {
-      fileList.push(name);
+  function handleFileClick(fileItem:File) {
+    
+    if (fileSelect.some(file => file.id === fileItem.id)) {
+      fileSelect = fileSelect.filter(file => file.id !== fileItem.id);
+    }
+    
+    else {
+      fileSelect.push(fileItem);
     }
   }
 
-  function getFileList() {
-      return fileList;
-  }
+
+function getFileList() {
+  return fileSelect;
+}
 
   const [user, setUser] = useState<any | null>(null);
+  const [search, setSearch] = useState<string>("")
   const navigate = useNavigate();
   useEffect(() => {
     if (!user && localStorage.getItem('user')) {
@@ -37,13 +43,15 @@ const Tags: React.FC = () => {
     }
   }, [user, navigate]);
 
+  
+
     if(user) return (
         <div className="flex p-4 h-full lg:h-screen bg-secbackground">
           <div className='flex shadow-lg rounded-lg w-screen h-full p-2 bg-background'>
             <SideBar />
             <div className="w-full grid-cols-6">
-            <LabelsMenu getFileList={getFileList} />
-            <FilesView handleFileClick={handleFileClick} getFileList={getFileList} />
+            <LabelsMenu getFileList={getFileList} setSearch={setSearch}/>
+            <FilesView handleFileClick={handleFileClick} getFileList={getFileList}  search={search} />
             </div>
   
           </div>
