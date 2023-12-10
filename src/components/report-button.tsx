@@ -129,8 +129,8 @@ const ReportButton: React.FC<ReportButtonProps> = ({size, handleClick, getReport
         <div className="m-5">
         <div className="overflow-y-auto grow w-full h-56">
           { report && filesToCompress &&
-            filesToCompress.map(file => (
-                  <div className="m-2">
+            filesToCompress.map((file,idx) => (
+                  <div className="m-2" key={idx}>
                     <FileItem file={file} action={<CompressButton id={file.id} handleCompress={handleFileCompress}/>} />
                     <div className="h-px bg-white/10 my-2"></div>
                   </div>

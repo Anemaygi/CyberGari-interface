@@ -99,15 +99,46 @@ const DeleteButton: React.FC<ActionButtonProps> = ({ id, handleDelete })  => {
   );
 }
 
-const UncompressButton: React.FC<ActionButtonProps> = ({ id })  => {
-  
-  const uncompressItem = (id: String) => {
-    console.log("Comprimiu "+id);
-  };
+interface UncompressButtonProps {
+  id: string;
+}
+
+const UncompressButton: React.FC<UncompressButtonProps> = ({ id })  => {
     
+  const [filesToUncompress, setFilesToUncompress] = useState<Array<string>>([]);
+
+  const handleUncompress = (id: string) => {
+  //
+  //
+  // Descomprimir arquivo passando lista de ids
+  //
+  //
+  
+  setFilesToUncompress([id]);
+    console.log(filesToUncompress);
+    fetch(`http://localhost:8080/files/uncompress`, { 
+                  method: 'PUT',
+                  headers: {
+                      'Content-Type': 'application/json',  
+                  },
+  
+                  body: JSON.stringify(filesToUncompress),
+              })
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error(`Status: ${response.status}`);
+                      }
+                      // console.log(JSON.stringify(filesToUncompress));
+                      console.log(response)
+                  } 
+              )
+                .catch(error =>{
+                  console.error(error)});
+    
+  }
   return(
     <>
-      <div className="flex items-center"><div onClick={() => uncompressItem( id )} className={`bg-azul3 cursor-pointer rounded-md h-8 w-8 flex items-center justify-center`}><FiMaximize2 size={20} /></div></div>
+      <div className="flex items-center"><div onClick={() => handleUncompress( id )} className={`bg-azul3 cursor-pointer rounded-md h-8 w-8 flex items-center justify-center`}><FiMaximize2 size={20} /></div></div>
       <DeleteButton id={id} handleDelete={() => console.log("clicou")}/>
     </>
   );
@@ -142,6 +173,23 @@ const ReportList: React.FC<ReportsListProps> = ({report}) => {
     setCompressedFiles(report.filesToCompress);
   }, [report])
 
+
+  //
+  //
+  // GET dos arquivos que estão comprimidos
+  //
+  //
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/files/compressed`, { 
+      method: 'GET'})
+      .then(response => response.json())
+      .then(json => {
+        console.log(json)
+      })
+      .catch(error => console.error(error));
+},[])
+
   const handleDelete = (id: string) => {
     const updatedFiles = filesToDelete.filter(file => file.id !== id);
     setFilesToDelete(updatedFiles)
@@ -166,16 +214,18 @@ const ReportList: React.FC<ReportsListProps> = ({report}) => {
           <div className="overflow-y-auto grow w-full h-56 m-2">
             
             { type && filesToDelete ? 
-              filesToDelete.map(file => (
-                <div className="m-2">
+              filesToDelete.map((file,idx) => (
+                <div key={idx} className="m-2">
                   <FileItem file={file} action={<DeleteButton handleDelete={handleDelete} id={file.id}/>}/>
                   <div className="h-px bg-white/10 my-2"></div>
                 </div>
               ))
               :
+
               compressedFiles.map(file => (
                 <div className="m-2">
                   <FileItem file={file} action={<UncompressButton handleDelete={(irra) => console.log(irra)} id={file.id}/>} />
+
                   <div className="h-px bg-white/10 my-2"></div>
                 </div>
               ))
