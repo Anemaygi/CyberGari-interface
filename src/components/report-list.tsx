@@ -224,7 +224,7 @@ const ReportList: React.FC<ReportsListProps> = ({report}) => {
 
               compressedFiles.map(file => (
                 <div className="m-2">
-                  <FileItem file={file} action={<UncompressButton handleDelete={(irra) => console.log(irra)} id={file.id}/>} />
+                  {/* <FileItem file={file} action={<UncompressButton handleDelete={(irra) => console.log(irra)} id={file.id}/>} /> */}
 
                   <div className="h-px bg-white/10 my-2"></div>
                 </div>
