@@ -21,8 +21,7 @@ const LandingPage: React.FC = () => {
               <img src={title} alt="CyberGari" className="pt-4 w-[30rem]" />
               <p className="px-4 pb-4 text-lg">A economia e controle de armazenamento que você precisava, agora completos em um único lugar! </p>
               <div className="w-full flex flex-wrap items-center">
-                <div className="w-full"><Button title="Comece agora!" handleClick={() => navigate('/login')} /></div>
-                <div className="border-2 font-semibold border-roxo1 rounded-2xl text-roxo1 shadow-lg flex flex-grow items-center h-fit w-fit py-1.5 mx-3 justify-center cursor-pointer" onClick={() => navigate('/login')}>Entrar</div>
+                <div className="w-full"><Button title="Se Inscreva para a Versão Beta!" handleClick={() => navigate('/login')} /></div>
               </div>
             </div>
           </div>
@@ -33,14 +32,15 @@ const LandingPage: React.FC = () => {
         </div>
 
         <div className="w-fit h-fit relative">
+          
           <div className="z-0 h-px w-px absolute bottom-0 right-0 rounded-full shadow-SmLightOrb bg-[#7058A3]"></div>
           <div className=" z-40 h-fit min-h-screen bg-[#D9D9D9]/10 grid p-10 grid-cols-1 md:grid-cols-2 justify-center items-center relative">
 
-            <div className="flex justify-center"><img src={gradientFiles} className="z-20 max-h-96 h-full" /></div>
+            <div className="flex justify-center"><iframe width="590" height="315" src="https://www.youtube.com/embed/oMPD9xyG9J8?si=EIYbLpaZLZXn_pTR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
             <div className="md:pr-24 flex flex-col m-4 justify-center md:items-start items-center">
               <h1 className="uppercase text-4xl font-black py-4 "> O que é o <b className="text-hotpink neon">Cybergari</b>? </h1>
               <p>O CyberGari é um software para <b className="font-black">eficiência de armazenamento digital</b>, auxiliando na limpeza e manutenção do seu gerenciador de arquivos.<br/>Utilizando <b className="font-black">parâmetros personalizáveis</b>, consegue gerar relatórios, priorizar os arquivos valiosos e comprimir os menos importantes, <b className="font-black">reduzindo custos de armazenamento</b> para você ou sua organização.</p>
-              <div className="w-fit z-40 pt-4 -ml-3"><Button title="Cadastre-se!" handleClick={() => navigate('/login')} /></div>
+              <div className="w-fit z-40 pt-4 -ml-3"><Button title="Se Inscreva para a Versão Beta!" handleClick={() => navigate('/login')} /></div>
             </div>
           </div>
         </div>

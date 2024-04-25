@@ -6,6 +6,8 @@ import IconButton from '@/components/icon-button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import { Input } from '@/components/ui/input';
+import Button from '@/components/ui/button';
 
 
 const LoginPage: React.FC = () => {
@@ -46,18 +48,34 @@ const LoginPage: React.FC = () => {
     }
   }, [profile, navigate]);
 
-
+  function handleSubmit(event: any) {
+    event.preventDefault();
+  
+    const name = event.target.name.value;
+    const email = event.target.email.value;
+  
+    const newUser = {
+      name,
+      email,
+    };
+    console.log(newUser)
+  }
+  
   return (
     <div className="flex p-4 h-screen bg-secbackground">
         <div className='flex flex-wrap items-center justify-center shadow-lg rounded-lg w-screen h-full p-2 bg-background overflow-y-auto md:overflow-hidden'>
           
             <div className="flex flex-col flex-grow h-full justify-center items-center">
                 <div><img src={logoVertical} alt="CyberGari" className="w-96" /></div>
-                <IconButton 
-                  title={'Continue with Google'} 
-                  handleClick={() => login()}
-                  icon={<FontAwesomeIcon icon={faGoogle} />}
-                  />
+                <form onSubmit={handleSubmit}>
+                  <label className='text-white'>E-mail</label>
+                  <Input type='email'name='email' placeholder='meuemail@gmail.com' className="w-[100%] bg-[#D9D9D9] text-black mb-5"/>
+                  <label className='text-white'>Nome</label>
+                  <Input type='text' name='name' placeholder='Meu Nome' className="w-[100%] bg-[#D9D9D9] text-black mb-5"/>
+                  <button type='submit'
+                  className="shadow-sm bg-gradient-to-r m-3 from-roxo1 to-roxo2 w-auto py-2 px-20 cursor-pointer rounded-2xl flex items-center justify-center text-white"
+                  >Quero me Inscrever!!</button>
+                </form>
               </div>
               <div className="flex justify-center">
             <img src={limpeza} alt="Homem limpando" className="pt-4 mr-8 w-[28rem]" />
