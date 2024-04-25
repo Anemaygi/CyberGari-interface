@@ -53,12 +53,20 @@ const LoginPage: React.FC = () => {
   
     const name = event.target.name.value;
     const email = event.target.email.value;
-  
-    const newUser = {
-      name,
-      email,
-    };
-    console.log(newUser)
+
+    
+    fetch(`https://cybergari-back-end.up.railway.app/demoUser`, { 
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json' // Set the Content-Type header
+                }, 
+                body: JSON.stringify({ 
+                  name,
+                  email,
+                } )})
+            .then(response => response.json())
+            .then(json => setProfile(json))
+            .catch(error => console.error(error));
   }
   
   return (
@@ -69,9 +77,9 @@ const LoginPage: React.FC = () => {
                 <div><img src={logoVertical} alt="CyberGari" className="w-96" /></div>
                 <form onSubmit={handleSubmit}>
                   <label className='text-white'>E-mail</label>
-                  <Input type='email'name='email' placeholder='meuemail@gmail.com' className="w-[100%] bg-[#D9D9D9] text-black mb-5"/>
+                  <Input type='email'name='email' placeholder='meuemail@gmail.com' className="w-[100%] bg-[#D9D9D9] text-black mb-5" required/>
                   <label className='text-white'>Nome</label>
-                  <Input type='text' name='name' placeholder='Meu Nome' className="w-[100%] bg-[#D9D9D9] text-black mb-5"/>
+                  <Input type='text' name='name' placeholder='Meu Nome' className="w-[100%] bg-[#D9D9D9] text-black mb-5" required/>
                   <button type='submit'
                   className="shadow-sm bg-gradient-to-r m-3 from-roxo1 to-roxo2 w-auto py-2 px-20 cursor-pointer rounded-2xl flex items-center justify-center text-white"
                   >Quero me Inscrever!!</button>
